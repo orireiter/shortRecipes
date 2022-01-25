@@ -11,21 +11,18 @@ const Login = (): JSX.Element => {
     const dispatch = useAppDispatch();
 
     return (
-        <div>
-            <div>
-                <h1>Login</h1>
-            </div>
-            <div>
+        <div className='authContainer'>
+            <div className='authForm'>
                 <div>
                     <p>Email</p>
-                    <input type='email' value={email} onChange={event => setEmail(event.target.value)}/>
+                    <input type='email' placeholder='example@example.com' value={email} onChange={event => setEmail(event.target.value)}/>
                 </div>
                 <div>
                     <p>Password</p>
                     <input type='password' value={password} onChange={event => setPassword(event.target.value)}/>
                 </div>
             </div>
-            <div>
+            <div className='authSubmit'>
                 <button onClick={() => logIn(dispatch, email, password)}
                         disabled={(email && password) ? false : true}>
                     Login
