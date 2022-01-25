@@ -1,0 +1,99 @@
+/* || fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+/* || general styles */
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+/* || site wide */
+
+#root, #wholeApp {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#wholeApp {
+    background-color: #F9D4BB;
+    color: #04151F;
+}
+
+#mainPage {
+    height: 85%;
+}
+
+/* || navbar */
+
+#navbar {
+    background-color: #387D7A;
+    height: 10%;
+    box-shadow: 0 0.2em 0.6em 0.2em grey;
+}
+
+#currentPageTitle {
+    height: 100%;
+    width: 50%;
+}
+#navbar h1 {
+    font-size: 3em;
+    padding-left: 2%;
+    padding-top: 1%;
+}
+
+/* || login signup */
+
+.authContainer {
+    width: 40%;
+    margin: 5% auto;
+    text-align: center;
+    /* background-color: #56a09c; */
+    border-radius: 0.8em;
+}
+
+.authForm div {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.authForm div p {
+    margin-bottom: 4%;
+    font-size: 1.4em;
+}
+
+.authForm input {
+    width: 90%;
+    font-size: 1.2em;
+    padding: 2%;
+    background-color: #dfb79d;
+    border-color: #c9a791;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 1em;
+}
+
+.authSubmit {
+    margin: 5%;
+}
+
+.authSubmit button {
+    width: 50%;
+    font-size: 2em;
+    background-color: #469d9991;
+    border-color: #c9a791;
+    border-style: none;
+    border-width: thin;
+    border-radius: 1em;
+}

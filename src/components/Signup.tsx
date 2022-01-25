@@ -12,11 +12,8 @@ const Signup = (): JSX.Element => {
     const dispatch = useAppDispatch();
 
     return (
-        <div>
-            <div>
-                <h1>Sign Up</h1>
-            </div>
-            <div>
+        <div className='authContainer'>
+            <div className='authForm'>
                 <div>
                     <p>User Name</p>
                     <input type='email' value={email} onChange={event => setEmail(event.target.value)}/>
@@ -30,7 +27,7 @@ const Signup = (): JSX.Element => {
                     <input type='password' value={passwordConfirm} onChange={event => setPasswordConfirm(event.target.value)}/>
                 </div>
             </div>
-            <div>
+            <div className='authSubmit'>
                 <button onClick={() => signUp(dispatch, email, password)}
                         disabled={(email && password && password === passwordConfirm && password.length > 5) ? false : true}>
                     Sign Up
