@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAppDispatch } from '../app/hooks';
 import { logIn } from '../logic/authLogic';
@@ -15,7 +16,7 @@ const Login = (): JSX.Element => {
             <div className='authForm'>
                 <div>
                     <p>Email</p>
-                    <input type='email' placeholder='example@example.com' value={email} onChange={event => setEmail(event.target.value)}/>
+                    <input type='email' value={email} onChange={event => setEmail(event.target.value)}/>
                 </div>
                 <div>
                     <p>Password</p>
@@ -23,10 +24,15 @@ const Login = (): JSX.Element => {
                 </div>
             </div>
             <div className='authSubmit'>
-                <button onClick={() => logIn(dispatch, email, password)}
+                <button className={(email && password) ? 'buttonEnabled' : 'buttonDisabled'}
+                        onClick={() => logIn(dispatch, email, password)}
                         disabled={(email && password) ? false : true}>
                     Login
                 </button>
+            </div>
+
+            <div className='goOtherAuth'>
+                <p>Don't have an account yet? Sign up <Link to='/signup'>here</Link></p>
             </div>
         </div>
     );

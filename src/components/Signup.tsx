@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAppDispatch } from '../app/hooks';
 import { signUp } from '../logic/authLogic';
@@ -28,10 +29,14 @@ const Signup = (): JSX.Element => {
                 </div>
             </div>
             <div className='authSubmit'>
-                <button onClick={() => signUp(dispatch, email, password)}
+                <button className={(email && password) ? 'buttonEnabled' : 'buttonDisabled'}
+                        onClick={() => signUp(dispatch, email, password)}
                         disabled={(email && password && password === passwordConfirm && password.length > 5) ? false : true}>
                     Sign Up
                 </button>
+            </div>
+            <div className='goOtherAuth'>
+                <p>Already have an account? Log in <Link to='/login'>here</Link></p>
             </div>
         </div>
     );

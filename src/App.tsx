@@ -28,9 +28,6 @@ function App() {
 
   checkUserConnected(dispatch);
 
-  console.log(window.location.pathname)
-  // todo add use of url to decide upper bar name
-  
   let appContent: JSX.Element;
   if (auth.isAuthenticated === null) {
     appContent =
