@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes
-} from "react-router-dom";
+} from 'react-router-dom';
 
 import config from './config.json'
 import './App.css';
@@ -12,12 +12,13 @@ import { useAppSelector } from './app/hooks';
 import { useAppDispatch } from './app/hooks';
 import { selectAuth } from './slices/authSlice';
 import { checkUserConnected } from './logic/authLogic';
-import { Redirect } from './utils';
 
 import { Counter } from './features/counter/Counter';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Home from './components/Home'
+import Home from './components/Home';
+import Navbar from './components/Navbar';
+import { Redirect } from './utils';
 
 
 function App() {
@@ -27,9 +28,6 @@ function App() {
 
   checkUserConnected(dispatch);
 
-  console.log(window.location.pathname)
-  // todo add use of url to decide upper bar name
-  
   let appContent: JSX.Element;
   if (auth.isAuthenticated === null) {
     appContent =
@@ -38,29 +36,30 @@ function App() {
       </div>
   } else if (!auth.isAuthenticated) {
     appContent =
-      <Router>
         <Routes>
           <Route path='/*' element={<Redirect  redirect_to='/login'/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
-      </Router>
   } else {
     appContent =
-      <Router>
         <div className="App">
           <Counter />
+          <Routes>
+            <Route path="/*" element={<Home />} />
+          </Routes>
         </div>
-        <Routes>
-          <Route path="/*" element={<Home />} />
-        </Routes>
-      </Router>
   }
 
   return (
-    <div id='wholeApp'>
-        {appContent}
-    </div>
+    <Router>
+      <div id='wholeApp'>
+        <Navbar />
+        <div id='mainPage'>
+            { appContent }
+        </div>
+      </div>
+    </ Router>
   );
 }
 

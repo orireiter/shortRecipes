@@ -1,0 +1,116 @@
+/* || fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+/* || general styles */
+
+#root {
+    font-family: 'Lato', sans-serif;
+    background-color: #EDE7E3;
+}
+
+html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+/* || site wide */
+
+/* https://coolors.co/16697a-489fb5-82c0cc-ede7e3-ffa62b */
+
+#wholeApp {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+
+#mainPage {
+    height: 85%;
+}
+
+/* || navbar */
+
+#navbar {
+    background-color: #16697A;
+    height: 10%;
+    box-shadow: 0 0.2em 0.6em 0.2em grey;
+}
+
+#currentPageTitle {
+    height: 100%;
+    width: 50%;
+}
+#navbar h1 {
+    font-size: 3em;
+    padding-left: 2%;
+    padding-top: 1%;
+}
+
+/* || login signup */
+
+.authContainer {
+    width: 40%;
+    margin: auto;
+    padding-top: 2%;
+    text-align: center;
+    /* background-color: #56a09c; */
+    border-radius: 0.8em;
+}
+
+.authForm div {
+    padding-bottom: 5%;
+}
+
+.authForm div p {
+    margin-bottom: 4%;
+    font-size: 1.4em;
+}
+
+.authForm input {
+    width: 90%;
+    font-size: 1.2em;
+    padding: 2%;
+    background-color: #cfc6c0;
+    border-color: #cac0b9;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 1em;
+}
+
+.authSubmit {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.authSubmit button {
+    width: 50%;
+    font-size: 2em;
+    font-family: inherit;
+    border-color: #cfc6c0;
+    border-style: none;
+    border-width: thin;
+    border-radius: 1em;
+}
+
+.buttonEnabled {
+    background-color: #489FB5;
+    cursor: pointer;
+}
+
+.buttonDisabled {
+    background-color: #489fb56b;
+}
+
+.goOtherAuth {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}

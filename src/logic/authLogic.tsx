@@ -1,11 +1,11 @@
-import { AnyAction } from "@reduxjs/toolkit";
-import { FirebaseOptions, initializeApp } from "firebase/app";
+import { AnyAction } from '@reduxjs/toolkit';
+import { FirebaseOptions, initializeApp } from 'firebase/app';
 import { getAuth, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     onAuthStateChanged, 
-    signOut } from "firebase/auth";
-import { Dispatch } from "react";
+    signOut } from 'firebase/auth';
+import { Dispatch } from 'react';
 
 import config from '../config.json'
 import { authenticate, unAuthenticate } from '../slices/authSlice'
