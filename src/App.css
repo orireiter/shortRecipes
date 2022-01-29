@@ -5,7 +5,8 @@
 
 #root {
     font-family: 'Lato', sans-serif;
-    background-color: #EDE7E3;
+    background-color: #16697A;
+    color: #0A122A;
 }
 
 html, body, #root {
@@ -37,22 +38,53 @@ p {
     height: 85%;
 }
 
+.App {
+    max-height: 100%;
+    overflow-x: auto;
+}
+
 /* || navbar */
 
 #navbar {
     background-color: #16697A;
     height: 10%;
-    box-shadow: 0 0.2em 0.6em 0.2em grey;
+    box-shadow: 0 0.2em 0.6em 0.2em #0000004f;
+
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 #currentPageTitle {
-    height: 100%;
     width: 50%;
 }
 #navbar h1 {
     font-size: 3em;
     padding-left: 2%;
-    padding-top: 1%;
+    color: #ede7e3;
+}
+
+/* || credits */
+
+#madeBy {
+    height: 5%;
+    max-height: 5%;
+    display: flex;
+    align-items: center;
+
+    background-color: #296d7c;
+    color: #ede7e3;
+
+    box-shadow: 0 -0.01em 0.3em 0.08em #0000004f;
+    position: relative;
+}
+
+#madeBy p {
+    padding-left: 1%;
+} 
+
+#madeBy a {
+    color: #ede7e3;
 }
 
 /* || login signup */
@@ -113,4 +145,31 @@ p {
 .goOtherAuth {
     padding-top: 5%;
     padding-bottom: 5%;
+}
+
+
+/* || home */
+
+#allRecipeGrid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+
+    /* padding-top: 2%;
+    padding-bottom: 2%; */
+    /* margin: auto 0.5%; */
+}
+
+.recipeSummaryContainer {
+    padding: 2%;
+    box-shadow: inset 0.21em 0.2em 0.2em 0.005em #0000004f;
+}
+
+.recipeThumbnail {
+    width: 90%;
+    margin: 5% auto;
+}
+
+.recipeThumbnail img{
+    max-width: 100%;
+    height: auto;
 }

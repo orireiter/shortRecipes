@@ -37,16 +37,17 @@ function App() {
   } else if (!auth.isAuthenticated) {
     appContent =
         <Routes>
-          <Route path='/*' element={<Redirect  redirect_to='/login'/>} />
+          <Route path='/*' element={<Redirect  redirectTo='/login'/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
   } else {
     appContent =
         <div className="App">
-          <Counter />
+          {/* <Counter /> */}
           <Routes>
-            <Route path="/*" element={<Home />} />
+            <Route path='/*' element={<Redirect  redirectTo='/'/>} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </div>
   }
@@ -57,6 +58,9 @@ function App() {
         <Navbar />
         <div id='mainPage'>
             { appContent }
+        </div>
+        <div id='madeBy'>
+          <p>Made By <a href='https://github.com/orireiter' target='_blank' rel='noreferrer'>Ori Reiter</a></p>
         </div>
       </div>
     </ Router>
