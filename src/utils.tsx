@@ -81,10 +81,11 @@ const defaultShadeGeneratorOptions: shadeGeneratorOptions = {
 };
 
 
+// todo finish shade generator
 export function* hslShadeGenerator(hslString: string, shadeOptions: shadeGeneratorOptions = defaultShadeGeneratorOptions) {
   const hslColor = new HslColor(hslString);
   console.log(hslColor.toHslString());
-  yield hslColor.toHslString();
+  yield hslColor;
   
   let fullShadeOptions = {...shadeOptions, 
     isAscending: true, 
@@ -96,14 +97,16 @@ export function* hslShadeGenerator(hslString: string, shadeOptions: shadeGenerat
     for (let i in  [...Array(shadeOptions.lightsPerSaturations - 1)]) {
       hslColor.nextShade(0, 0, shadeOptions.incrementLightnessBy);
       console.log(hslColor.toHslString());
-      yield hslColor.toHslString();  
+      yield hslColor;  
     };
 
     hslColor.resetLightness()
     hslColor.nextShade(0, shadeOptions.incrementSaturationBy, 0);
     console.log(hslColor.toHslString());
-    yield hslColor.toHslString();
+    yield hslColor;
   };
+
+  return hslColor;
 };
 
 

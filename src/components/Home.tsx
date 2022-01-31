@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 import { hslShadeGenerator } from '../utils';
-import { logOut } from '../logic/authLogic';
 
 
 const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string}): JSX.Element => {
     return (
         <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
-            <div>
+            <div className='recipeName'>
                 <h2>{props.recipeName}</h2>
             </div>
             <div className='recipeThumbnail'>
                 <img src='https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max' alt='pizza'/>
             </div>
-            <div>
-                <p>Chef: {props.recipeCreator}</p>
+            <div className='recipeAuthor'>
+                <p>By: {props.recipeCreator}</p>
             </div>
-            <div>
-                <p>Last Updated: {props.recipeLastUpdate.toISOString()}</p>
+            <div className='recipeLastUpdate'>
+                <p>Last Update: {props.recipeLastUpdate.toLocaleDateString()}</p>
             </div>
         </div>
     );
@@ -33,22 +32,15 @@ const Home = (): JSX.Element => {
         setRecipes([]);
         let i = 0;
         while (i <= 14 ) {
-            setRecipes(currentRecipes => [...currentRecipes, <RecipeSummary {...recipeProps} key={Math.random()} backgroundColor={genie.next().value || 'transparent'}/>])
+            setRecipes(currentRecipes => [...currentRecipes, <RecipeSummary {...recipeProps} key={Math.random()} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>])
             i += 1
         }
     }, [])
     
     return (
         <div>
-            <div>
-                <div id='allRecipeGrid'>
-                    {recipes}
-                </div>
-            </div>
-            <div style={{backgroundColor: 'hsl(190, 100%, 28%)'}}>
-                <button onClick={() => logOut()}>
-                    Log Out
-                </button>
+            <div id='allRecipeGrid'>
+                {recipes}
             </div>
         </div>
     );

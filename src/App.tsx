@@ -17,7 +17,8 @@ import { Counter } from './features/counter/Counter';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home';
-import Navbar from './components/Navbar';
+import Header from './components/Header';
+import NavigationBar from './components/NavigationBar'
 import { Redirect } from './utils';
 
 
@@ -47,7 +48,7 @@ function App() {
           {/* <Counter /> */}
           <Routes>
             <Route path='/*' element={<Redirect  redirectTo='/'/>} />
-            <Route path="/" element={<Home />} />
+            <Route path='/' element={<Home />} />
           </Routes>
         </div>
   }
@@ -55,8 +56,9 @@ function App() {
   return (
     <Router>
       <div id='wholeApp'>
-        <Navbar />
+        <Header />
         <div id='mainPage'>
+            <NavigationBar />
             { appContent }
         </div>
         <div id='madeBy'>
