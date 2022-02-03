@@ -70,6 +70,26 @@ p {
     cursor: pointer;
 }
 
+.popup-overlay {
+    background-color: #17697a7a;
+}
+
+.popup-content {
+    animation: fadeInAnimation ease 0.3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+  
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+}
+
 /* || header */
 
 #navbar {
@@ -113,16 +133,88 @@ p {
     z-index: 2;
 
     transition: ease-in-out 0.5s;
+    overflow: hidden;
+    white-space: nowrap;
+    box-shadow: 0.21em 0.2em 0.2em 0.005em #0000004f;
 }
 
 .navClosed {
     width: 0%;
     visibility: hidden;
+    color: transparent;
 }
 
 .navOpen {
     width: 25%;
+    color: #ede7e3;
 }
+
+#navigationSettings {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4%;
+}
+
+#navLogout {
+    display: flex;
+    align-items: center;
+    width: 45%;
+    justify-content: space-evenly;
+    margin-left: 2%;
+    border-radius: 0.5em;;
+}
+
+#navSettingsButton {
+    margin-right: 5%;
+    border-radius: 1em;
+    padding: 1%;
+    margin-left: 3%;
+    border-radius: 0.5em;
+}
+
+#navSettingsButton, #navLogout, #logoutPopupButtons button {
+    transition: ease-in-out 0.2s;
+}
+#navSettingsButton:hover, #navLogout:hover {
+    background-color: #114f5c;
+}
+
+#logoutPopup {
+    color: #ede7e3;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    background-color: #16697A;
+    padding: 5%;
+    border-radius: 0.3em;
+    box-shadow: 0.21em 0.2em 0.2em 0.005em #0000004f;
+    transition: ease-in-out 0.2s;
+}
+
+#logoutPopupButtons {
+    display: flex;
+    margin: 10% auto 0;
+    justify-content: space-around;
+}
+
+#logoutPopupButtons button {
+    font-family: inherit;
+    padding: 3%;
+    padding-right: 7%;
+    padding-left: 7%;
+    border-radius: 0.5em;
+    background-color: #ede7e3;
+    border-style: none;
+    box-shadow: 0.21em 0.2em 0.2em 0.005em #00000026;
+}
+
+
+#logoutPopupButtons button:hover{
+    background-color: #c9c9c9;
+}
+
 /* || credits */
 
 #madeBy {
