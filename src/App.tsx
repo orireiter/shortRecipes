@@ -17,7 +17,8 @@ import { Counter } from './features/counter/Counter';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home';
-import Navbar from './components/Navbar';
+import Header from './components/Header';
+import NavigationBar from './components/NavigationBar'
 import { Redirect } from './utils';
 
 
@@ -37,16 +38,17 @@ function App() {
   } else if (!auth.isAuthenticated) {
     appContent =
         <Routes>
-          <Route path='/*' element={<Redirect  redirect_to='/login'/>} />
+          <Route path='/*' element={<Redirect  redirectTo='/login'/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
   } else {
     appContent =
         <div className="App">
-          <Counter />
+          {/* <Counter /> */}
           <Routes>
-            <Route path="/*" element={<Home />} />
+            <Route path='/*' element={<Redirect  redirectTo='/'/>} />
+            <Route path='/' element={<Home />} />
           </Routes>
         </div>
   }
@@ -54,9 +56,13 @@ function App() {
   return (
     <Router>
       <div id='wholeApp'>
-        <Navbar />
+        <Header />
         <div id='mainPage'>
+            <NavigationBar />
             { appContent }
+        </div>
+        <div id='madeBy'>
+          <p>Made By <a href='https://github.com/orireiter' target='_blank' rel='noreferrer'>Ori Reiter</a></p>
         </div>
       </div>
     </ Router>

@@ -7,8 +7,9 @@ import { getAuth,
     signOut } from 'firebase/auth';
 import { Dispatch } from 'react';
 
-import config from '../config.json'
-import { authenticate, unAuthenticate } from '../slices/authSlice'
+import config from '../config.json';
+import { authenticate, unAuthenticate } from '../slices/authSlice';
+import { closeNavbar } from '../slices/generalSettingsSlice';
 
 const firebaseConfig: FirebaseOptions = config.auth.firebase;
 const fireBase = initializeApp(firebaseConfig);
@@ -20,12 +21,12 @@ export const checkUserConnected = (dispatch: Dispatch<AnyAction>) => {
         if (user) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/firebase.User
-          const uid = user.uid;
-          console.log(`user id: ${uid}`);
+          // const uid = user.uid;
+          // console.log(`user id: ${uid}`);
           dispatch(authenticate());
           // ...
         } else {
-            console.log('no user...')
+            // console.log('no user...')
             dispatch(unAuthenticate());
           // User is signed out
           // ...
@@ -44,6 +45,7 @@ export const logIn = (dispatch: Dispatch<AnyAction>, email: string, password: st
     .then(() => dispatch(authenticate()))
 }
 
-export const logOut = () => {
+export const logOut = (dispatch: Dispatch<AnyAction>) => {
+    dispatch(closeNavbar());
     signOut(fireBaseAuth);
 }
