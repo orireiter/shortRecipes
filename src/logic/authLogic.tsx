@@ -9,7 +9,7 @@ import { Dispatch } from 'react';
 
 import config from '../config.json';
 import { authenticate, unAuthenticate } from '../slices/authSlice';
-import { openCloseNavbar } from '../slices/generalSettingsSlice';
+import { closeNavbar } from '../slices/generalSettingsSlice';
 
 const firebaseConfig: FirebaseOptions = config.auth.firebase;
 const fireBase = initializeApp(firebaseConfig);
@@ -46,6 +46,6 @@ export const logIn = (dispatch: Dispatch<AnyAction>, email: string, password: st
 }
 
 export const logOut = (dispatch: Dispatch<AnyAction>) => {
-    dispatch(openCloseNavbar());
+    dispatch(closeNavbar());
     signOut(fireBaseAuth);
 }
