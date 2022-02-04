@@ -2,6 +2,15 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
+// ------ GENERAL
+
+
+export const isEmailValid = (email: string): Boolean => {
+  let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email)
+}
+
+
 // ------ REACT
 
 
@@ -16,7 +25,33 @@ export const Redirect = (props: {redirectTo: string}): JSX.Element => {
         <div>
         </div>
     );
-  };
+};
+
+
+export const LoadingScreen = (): JSX.Element => {
+  return (
+    <div id='loadingScreen'>
+      <div></div>
+    </div>
+  );
+}
+
+
+export const ErrorMessage = (props: {errorMessage: string, children?: JSX.Element}): JSX.Element => {
+  return (
+    <div className='errorContainer'>
+      <div className='errorMessage'>
+        <span className="material-icons">
+              error_outline
+        </span>
+        <h2>{props.errorMessage}</h2>
+      </div>
+      <div className='errorChildren'>
+        {props.children}
+      </div>
+    </div>
+  );
+}
 
 
 // ------ COLORS
@@ -58,25 +93,16 @@ class HslColor {
 
 
 export type shadeGeneratorOptions = {
-  minimumSaturation: number;
   maximumSaturation: number;
   incrementSaturationBy: number;
-
-  minimumLightness: number;
-  maximumLightness: number;
   incrementLightnessBy: number;
-
   lightsPerSaturations: number
 };
 
 const defaultShadeGeneratorOptions: shadeGeneratorOptions = {
-  minimumSaturation: 0,
   maximumSaturation: 100,
-  incrementSaturationBy: 5,
-  minimumLightness: 0,
-  maximumLightness: 100,
+  incrementSaturationBy: 10,
   incrementLightnessBy: 5,
-
   lightsPerSaturations: 3
 };
 
@@ -84,35 +110,30 @@ const defaultShadeGeneratorOptions: shadeGeneratorOptions = {
 // todo finish shade generator
 export function* hslShadeGenerator(hslString: string, shadeOptions: shadeGeneratorOptions = defaultShadeGeneratorOptions) {
   const hslColor = new HslColor(hslString);
-  console.log(hslColor.toHslString());
   yield hslColor;
   
   let fullShadeOptions = {...shadeOptions, 
     isAscending: true, 
-    originalSaturation: hslColor.saturation,
-    originalLightness: hslColor.lightness
+    minimumSaturation: hslColor.saturation,
   }
   
   while (true) {
-    for (let i in  [...Array(shadeOptions.lightsPerSaturations - 1)]) {
-      hslColor.nextShade(0, 0, shadeOptions.incrementLightnessBy);
-      console.log(hslColor.toHslString());
+    for (let i in  [...Array(fullShadeOptions.lightsPerSaturations - 1)]) {
+      hslColor.nextShade(0, 0, fullShadeOptions.incrementLightnessBy);
       yield hslColor;  
     };
 
     hslColor.resetLightness()
-    hslColor.nextShade(0, shadeOptions.incrementSaturationBy, 0);
-    console.log(hslColor.toHslString());
+
+    let isMaxSatReached = fullShadeOptions.isAscending && (hslColor.saturation + fullShadeOptions.incrementSaturationBy > fullShadeOptions.maximumSaturation);
+    let isMinSatReached = !fullShadeOptions.isAscending && (hslColor.saturation + fullShadeOptions.incrementSaturationBy < fullShadeOptions.minimumSaturation);
+    if (isMaxSatReached || isMinSatReached) {
+      fullShadeOptions.isAscending = !fullShadeOptions.isAscending;
+      fullShadeOptions.incrementSaturationBy = -fullShadeOptions.incrementSaturationBy;
+    }
+    hslColor.nextShade(0, fullShadeOptions.incrementSaturationBy, 0);
     yield hslColor;
   };
 
   return hslColor;
 };
-
-
-const ori = new HslColor('hsl(0deg 0% 90%)');
-const hueIter = hslShadeGenerator(ori.originalHslString);
-
-for (let a in [...Array(20)]) {
-  // console.log(hueIter.next());
-}

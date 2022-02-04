@@ -1,14 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { useAppDispatch } from '../app/hooks';
 import { signUp } from '../logic/authLogic';
+import { isEmailValid, ErrorMessage } from '../utils';
 
 
 const Signup = (): JSX.Element => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+    const [isMailValid, setEmailValid] = useState<Boolean>(false);
+    const [signupError, setError] = useState<string>('');
+    let isValidCreds = (isMailValid && password && password === passwordConfirm && password.length > 5);
+
+    const trySignup = () => {
+        signUp(dispatch, email, password)
+        .catch((err) => {
+            setError('Something went wrong...');
+        })
+    }
+
+    const listenerSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if ((event.key === 'Enter' || event.key === 'NumpadEnter') && isValidCreds) {
+          event.preventDefault();
+          trySignup();
+        }
+    };
+
+    useEffect(() => {
+        setEmailValid(false);
+        if (isEmailValid(email) ) {
+            setEmailValid(true);
+        }
+    }, [email])
+
 
     const dispatch = useAppDispatch();
 
@@ -17,27 +44,44 @@ const Signup = (): JSX.Element => {
             <div className='authForm'>
                 <div>
                     <p>User Name</p>
-                    <input type='email' value={email} onChange={event => setEmail(event.target.value)}/>
+                    <input type='email' value={email} 
+                        onChange={event => setEmail(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
                 <div>
                     <p>Password</p>
-                    <input type='password' value={password} onChange={event => setPassword(event.target.value)}/>
+                    <input type='password' value={password} 
+                        onChange={event => setPassword(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
                 <div>
                     <p>Re-enter Password</p>
-                    <input type='password' value={passwordConfirm} onChange={event => setPasswordConfirm(event.target.value)}/>
+                    <input type='password' value={passwordConfirm} 
+                        onChange={event => setPasswordConfirm(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
             </div>
             <div className='authSubmit'>
-                <button className={(email && password) ? 'buttonEnabled' : 'buttonDisabled'}
-                        onClick={() => signUp(dispatch, email, password)}
-                        disabled={(email && password && password === passwordConfirm && password.length > 5) ? false : true}>
+                <button className={ (isValidCreds) ? 'buttonEnabled' : 'buttonDisabled'}
+                        onClick={trySignup}
+                        disabled={!isValidCreds}>
                     Sign Up
                 </button>
             </div>
             <div className='goOtherAuth'>
                 <p>Already have an account? Log in <Link to='/login'>here</Link></p>
             </div>
+
+            <Popup open={(signupError) ? true : false}
+                   onClose={() => {setError('');}}>
+                { (close: Function) => (
+                <ErrorMessage errorMessage={signupError} children={
+                    <button className='clickable closeErrorButton' onClick={() => {close();}}>OK</button>} />
+                )}
+            </Popup>
         </div>
     );
 }

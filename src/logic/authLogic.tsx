@@ -9,7 +9,7 @@ import { Dispatch } from 'react';
 
 import config from '../config.json';
 import { authenticate, unAuthenticate } from '../slices/authSlice';
-import { closeNavbar } from '../slices/generalSettingsSlice';
+import { closeNavbar, openLoading, closeLoading } from '../slices/generalSettingsSlice';
 
 const firebaseConfig: FirebaseOptions = config.auth.firebase;
 const fireBase = initializeApp(firebaseConfig);
@@ -36,16 +36,24 @@ export const checkUserConnected = (dispatch: Dispatch<AnyAction>) => {
 
 
 export const signUp = (dispatch: Dispatch<AnyAction>, email: string, password: string) => {
-    createUserWithEmailAndPassword(fireBaseAuth, email, password)
+    dispatch(openLoading());
+    return createUserWithEmailAndPassword(fireBaseAuth, email, password)
     .then(() => dispatch(authenticate()))
+    .finally(() => dispatch(closeLoading()));
 }
 
 export const logIn = (dispatch: Dispatch<AnyAction>, email: string, password: string) => {
-    signInWithEmailAndPassword(fireBaseAuth, email, password)
-    .then(() => dispatch(authenticate()))
+    dispatch(openLoading());
+    return signInWithEmailAndPassword(fireBaseAuth, email, password)
+    .then(() => {
+        dispatch(authenticate());
+    })
+    .finally(() => dispatch(closeLoading()));
 }
 
 export const logOut = (dispatch: Dispatch<AnyAction>) => {
+    dispatch(openLoading());
     dispatch(closeNavbar());
-    signOut(fireBaseAuth);
+    signOut(fireBaseAuth)
+    .finally(() => dispatch(closeLoading()));
 }

@@ -13,7 +13,7 @@ function SignOut() {
 
     return (
     <Popup modal nested trigger={
-        <div id='navLogout' className='clickable'>
+        <div id='navLogout' className='clickable notDraggable'>
             <span className='material-icons'>
                 logout
             </span>
@@ -50,7 +50,7 @@ export default function NavigationBar() {
             </div>
             <div id='navigationSettings'>
                 < SignOut/>
-                <span id='navSettingsButton' className='material-icons clickable'>
+                <span id='navSettingsButton' className='material-icons clickable notDraggable'>
                     settings
                 </span>
             </div>

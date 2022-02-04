@@ -90,6 +90,84 @@ p {
      }
 }
 
+.notDraggable {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#loadingScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#loadingScreen div {
+    border-color: #ede7e3 rgba(0, 0, 0, 0.541) rgba(0, 0, 0, 0.541) rgba(0, 0, 0, 0.541);
+    border-style: solid;
+    border-width: 1em;
+    border-radius: 100%;
+    padding: 9em;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
+.errorContainer {
+    background-color: #0b414c;
+    border-radius: 1em;
+}
+
+.errorMessage {
+    font-family: 'Lato', sans-serif;
+    color: #ede7e3;
+    display: flex;
+}
+
+.errorMessage span {
+    font-size: 4em;
+    padding: 5%;
+}
+
+.errorMessage h2 {
+    padding: 5%;
+}
+
+.errorChildren {
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+.closeErrorButton {
+    background-color: #16697A;
+    color: #ede7e3;
+    border-style: none;
+    border-radius: 0.3em;
+    font-size: 1.5em;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    padding-left: 4%;
+    padding-right: 4%;;
+    box-shadow: 0.2em 0.2em 0.21em 0.0001em #00000029;
+}
+
 /* || header */
 
 #navbar {
@@ -172,7 +250,7 @@ p {
     border-radius: 1em;
     padding: 1%;
     margin-left: 3%;
-    border-radius: 0.5em;
+    border-radius: 100%;
 }
 
 #navSettingsButton, #navLogout, #logoutPopupButtons button {
@@ -258,6 +336,7 @@ p {
 .authForm div p {
     margin-bottom: 4%;
     font-size: 1.4em;
+    color: #ede7e3;
 }
 
 .authForm input {
@@ -283,16 +362,21 @@ p {
     border-color: #cfc6c0;
     border-style: none;
     border-width: thin;
-    border-radius: 1em;
+    color: #ede7e3;
+    border-radius: 0.5em;
+    padding: 2%;
+
+    transition: ease-in-out 0.2s;
 }
 
 .buttonEnabled {
+    /* background-color: #489FB5; */
     background-color: #489FB5;
     cursor: pointer;
 }
 
 .buttonDisabled {
-    background-color: #489fb56b;
+    background-color: #368a9f;
 }
 
 .goOtherAuth {
