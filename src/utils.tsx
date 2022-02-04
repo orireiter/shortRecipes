@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 // ------ GENERAL
 
 
@@ -24,7 +25,16 @@ export const Redirect = (props: {redirectTo: string}): JSX.Element => {
         <div>
         </div>
     );
-  };
+};
+
+
+export const LoadingScreen = (): JSX.Element => {
+  return (
+    <div id='loadingScreen'>
+      <div></div>
+    </div>
+  );
+}
 
 
 // ------ COLORS
