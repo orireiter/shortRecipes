@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { hslShadeGenerator } from '../utils';
 
@@ -24,23 +24,19 @@ const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipe
 
 
 const Home = (): JSX.Element => {
-    const [recipes, setRecipes] = useState<Array<JSX.Element>>([]);
     let recipeProps = {recipeName: 'Pizza', recipeCreator:'Amit Komidi', recipeLastUpdate: new Date()};
-    const genie = hslShadeGenerator('hsl(191deg 50% 32%)');
+    const genie = hslShadeGenerator('hsl(191deg 60% 38%)');
 
-    useEffect(() => {
-        setRecipes([]);
-        let i = 0;
-        while (i <= 14 ) {
-            setRecipes(currentRecipes => [...currentRecipes, <RecipeSummary {...recipeProps} key={Math.random()} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>])
-            i += 1
-        }
-    }, [])
-    
+    let ori = [];
+    let i = 0;
+    while (i <= 140 ) {
+        ori.push(<RecipeSummary {...recipeProps} key={Math.random()} backgroundColor={genie.next().value.toHslString() || 'transparent'} />);
+        i += 1
+    }
     return (
         <div>
             <div id='allRecipeGrid'>
-                {recipes}
+                {ori}
             </div>
         </div>
     );

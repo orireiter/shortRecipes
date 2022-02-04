@@ -61,7 +61,7 @@ function App() {
             <NavigationBar />
             { appContent }
         </div>
-        <div id='madeBy'>
+        <div id='madeBy' className='notDraggable'>
           <p>Made By <a href='https://github.com/orireiter' target='_blank' rel='noreferrer'>Ori Reiter</a></p>
         </div>
       </div>

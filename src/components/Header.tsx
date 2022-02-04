@@ -12,7 +12,7 @@ export default function Header() {
     const auth = useAppSelector(selectAuth);
 
     return (
-        <div id='navbar'>
+        <div id='navbar' className='notDraggable'>
             {(auth.isAuthenticated) ? 
             <div id='navbarToggle'>
                 <span className='material-icons clickable' onClick={() => { dispatch(openCloseNavbar()) }}>

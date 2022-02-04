@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppDispatch } from '../app/hooks';
 import { logIn } from '../logic/authLogic';
+import { isEmailValid } from '../utils';
 
 
 const Login = (): JSX.Element => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [ isMailValid, setEmailValid ] = useState<Boolean>(false);
+
+    useEffect(() => {
+        setEmailValid(false);
+        if (isEmailValid(email) ) {
+            setEmailValid(true);
+        }
+    }, [email])
+
+    // TODO add event listener to allow submitting with enter
 
     const dispatch = useAppDispatch();
 
@@ -24,9 +35,9 @@ const Login = (): JSX.Element => {
                 </div>
             </div>
             <div className='authSubmit'>
-                <button className={(email && password) ? 'buttonEnabled' : 'buttonDisabled'}
+                <button className={(isMailValid && password && password.length > 5) ? 'buttonEnabled' : 'buttonDisabled'}
                         onClick={() => logIn(dispatch, email, password)}
-                        disabled={(email && password) ? false : true}>
+                        disabled={(isMailValid && password && password.length > 5) ? false : true}>
                     Login
                 </button>
             </div>

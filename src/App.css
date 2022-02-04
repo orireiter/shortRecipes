@@ -90,6 +90,15 @@ p {
      }
 }
 
+.notDraggable {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 /* || header */
 
 #navbar {
@@ -258,6 +267,7 @@ p {
 .authForm div p {
     margin-bottom: 4%;
     font-size: 1.4em;
+    color: #ede7e3;
 }
 
 .authForm input {
@@ -283,16 +293,21 @@ p {
     border-color: #cfc6c0;
     border-style: none;
     border-width: thin;
-    border-radius: 1em;
+    color: #ede7e3;
+    border-radius: 0.5em;
+    padding: 2%;
+
+    transition: ease-in-out 0.2s;
 }
 
 .buttonEnabled {
+    /* background-color: #489FB5; */
     background-color: #489FB5;
     cursor: pointer;
 }
 
 .buttonDisabled {
-    background-color: #489fb56b;
+    background-color: #368a9f;
 }
 
 .goOtherAuth {
