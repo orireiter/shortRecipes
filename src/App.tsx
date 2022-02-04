@@ -24,10 +24,6 @@ import NavigationBar from './components/NavigationBar'
 import { Redirect, LoadingScreen } from './utils';
 
 
-function loadingPopup () {
-
-}
-
 function App() {
   document.title = config.general.title || 'Small Words';
   const dispatch = useAppDispatch();
