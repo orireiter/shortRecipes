@@ -13,6 +13,7 @@ const Signup = (): JSX.Element => {
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
     const [isMailValid, setEmailValid] = useState<Boolean>(false);
     const [signupError, setError] = useState<string>('');
+    let isValidCreds = (isMailValid && password && password === passwordConfirm && password.length > 5);
 
     const trySignup = () => {
         signUp(dispatch, email, password)
@@ -20,6 +21,13 @@ const Signup = (): JSX.Element => {
             setError('Something went wrong...');
         })
     }
+
+    const listenerSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if ((event.key === 'Enter' || event.key === 'NumpadEnter') && isValidCreds) {
+          event.preventDefault();
+          trySignup();
+        }
+    };
 
     useEffect(() => {
         setEmailValid(false);
@@ -36,21 +44,30 @@ const Signup = (): JSX.Element => {
             <div className='authForm'>
                 <div>
                     <p>User Name</p>
-                    <input type='email' value={email} onChange={event => setEmail(event.target.value)}/>
+                    <input type='email' value={email} 
+                        onChange={event => setEmail(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
                 <div>
                     <p>Password</p>
-                    <input type='password' value={password} onChange={event => setPassword(event.target.value)}/>
+                    <input type='password' value={password} 
+                        onChange={event => setPassword(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
                 <div>
                     <p>Re-enter Password</p>
-                    <input type='password' value={passwordConfirm} onChange={event => setPasswordConfirm(event.target.value)}/>
+                    <input type='password' value={passwordConfirm} 
+                        onChange={event => setPasswordConfirm(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
             </div>
             <div className='authSubmit'>
-                <button className={(isMailValid && password && password === passwordConfirm && password.length > 5) ? 'buttonEnabled' : 'buttonDisabled'}
+                <button className={ (isValidCreds) ? 'buttonEnabled' : 'buttonDisabled'}
                         onClick={trySignup}
-                        disabled={(isMailValid && password && password === passwordConfirm && password.length > 5) ? false : true}>
+                        disabled={!isValidCreds}>
                     Sign Up
                 </button>
             </div>

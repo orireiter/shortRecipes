@@ -12,6 +12,7 @@ const Login = (): JSX.Element => {
     const [password, setPassword] = useState<string>('');
     const [isMailValid, setEmailValid] = useState<Boolean>(false);
     const [loginError, setError] = useState<string>('');
+    let isValidCreds = (isMailValid && password && password.length > 5);
 
     const tryLogin = () => {
         logIn(dispatch, email, password)
@@ -20,6 +21,12 @@ const Login = (): JSX.Element => {
         })
     }
 
+    const listenerSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if ((event.key === 'Enter' || event.key === 'NumpadEnter') && isValidCreds) {
+          event.preventDefault();
+          tryLogin();
+        }
+    };
     
     useEffect(() => {
         setEmailValid(false);
@@ -37,17 +44,23 @@ const Login = (): JSX.Element => {
             <div className='authForm'>
                 <div>
                     <p>Email</p>
-                    <input type='email' value={email} onChange={event => setEmail(event.target.value)}/>
+                    <input type='email' value={email} 
+                        onChange={(event) => setEmail(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
                 <div>
                     <p>Password</p>
-                    <input type='password' value={password} onChange={event => setPassword(event.target.value)}/>
+                    <input type='password' value={password} 
+                        onChange={(event) => setPassword(event.target.value)}
+                        onKeyDown={(event) => listenerSubmit(event)}
+                        />
                 </div>
             </div>
             <div className='authSubmit'>
-                <button className={(isMailValid && password && password.length > 5) ? 'buttonEnabled' : 'buttonDisabled'}
+                <button className={isValidCreds ? 'buttonEnabled' : 'buttonDisabled'}
                         onClick={tryLogin}
-                        disabled={(isMailValid && password && password.length > 5) ? false : true}>
+                        disabled={!isValidCreds}>
                     Login
                 </button>
             </div>
