@@ -37,14 +37,14 @@ export const checkUserConnected = (dispatch: Dispatch<AnyAction>) => {
 
 export const signUp = (dispatch: Dispatch<AnyAction>, email: string, password: string) => {
     dispatch(openLoading());
-    createUserWithEmailAndPassword(fireBaseAuth, email, password)
+    return createUserWithEmailAndPassword(fireBaseAuth, email, password)
     .then(() => dispatch(authenticate()))
     .finally(() => dispatch(closeLoading()));
 }
 
 export const logIn = (dispatch: Dispatch<AnyAction>, email: string, password: string) => {
     dispatch(openLoading());
-    signInWithEmailAndPassword(fireBaseAuth, email, password)
+    return signInWithEmailAndPassword(fireBaseAuth, email, password)
     .then(() => {
         dispatch(authenticate());
     })

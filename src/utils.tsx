@@ -37,6 +37,23 @@ export const LoadingScreen = (): JSX.Element => {
 }
 
 
+export const ErrorMessage = (props: {errorMessage: string, children?: JSX.Element}): JSX.Element => {
+  return (
+    <div className='errorContainer'>
+      <div className='errorMessage'>
+        <span className="material-icons">
+              error_outline
+        </span>
+        <h2>{props.errorMessage}</h2>
+      </div>
+      <div className='errorChildren'>
+        {props.children}
+      </div>
+    </div>
+  );
+}
+
+
 // ------ COLORS
 
 

@@ -1,16 +1,25 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { useAppDispatch } from '../app/hooks';
 import { signUp } from '../logic/authLogic';
-import { isEmailValid } from '../utils';
+import { isEmailValid, ErrorMessage } from '../utils';
 
 
 const Signup = (): JSX.Element => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-    const [ isMailValid, setEmailValid ] = useState<Boolean>(false);
+    const [isMailValid, setEmailValid] = useState<Boolean>(false);
+    const [signupError, setError] = useState<string>('');
+
+    const trySignup = () => {
+        signUp(dispatch, email, password)
+        .catch((err) => {
+            setError('Something went wrong...');
+        })
+    }
 
     useEffect(() => {
         setEmailValid(false);
@@ -40,7 +49,7 @@ const Signup = (): JSX.Element => {
             </div>
             <div className='authSubmit'>
                 <button className={(isMailValid && password && password === passwordConfirm && password.length > 5) ? 'buttonEnabled' : 'buttonDisabled'}
-                        onClick={() => signUp(dispatch, email, password)}
+                        onClick={trySignup}
                         disabled={(isMailValid && password && password === passwordConfirm && password.length > 5) ? false : true}>
                     Sign Up
                 </button>
@@ -48,6 +57,14 @@ const Signup = (): JSX.Element => {
             <div className='goOtherAuth'>
                 <p>Already have an account? Log in <Link to='/login'>here</Link></p>
             </div>
+
+            <Popup open={(signupError) ? true : false}
+                   onClose={() => {setError('');}}>
+                { (close: Function) => (
+                <ErrorMessage errorMessage={signupError} children={
+                    <button className='clickable closeErrorButton' onClick={() => {close();}}>OK</button>} />
+                )}
+            </Popup>
         </div>
     );
 }

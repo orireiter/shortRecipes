@@ -130,6 +130,44 @@ p {
     } 
 }
 
+.errorContainer {
+    background-color: #0b414c;
+    border-radius: 1em;
+}
+
+.errorMessage {
+    font-family: 'Lato', sans-serif;
+    color: #ede7e3;
+    display: flex;
+}
+
+.errorMessage span {
+    font-size: 4em;
+    padding: 5%;
+}
+
+.errorMessage h2 {
+    padding: 5%;
+}
+
+.errorChildren {
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+.closeErrorButton {
+    background-color: #16697A;
+    color: #ede7e3;
+    border-style: none;
+    border-radius: 0.3em;
+    font-size: 1.5em;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    padding-left: 4%;
+    padding-right: 4%;;
+    box-shadow: 0.2em 0.2em 0.21em 0.0001em #00000029;
+}
+
 /* || header */
 
 #navbar {

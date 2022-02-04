@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { useAppDispatch } from '../app/hooks';
 import { logIn } from '../logic/authLogic';
-import { isEmailValid } from '../utils';
+import { isEmailValid, ErrorMessage } from '../utils';
 
 
 const Login = (): JSX.Element => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [ isMailValid, setEmailValid ] = useState<Boolean>(false);
+    const [isMailValid, setEmailValid] = useState<Boolean>(false);
+    const [loginError, setError] = useState<string>('');
 
+    const tryLogin = () => {
+        logIn(dispatch, email, password)
+        .catch((err) => {
+            setError('Wrong email or password...');
+        })
+    }
+
+    
     useEffect(() => {
         setEmailValid(false);
         if (isEmailValid(email) ) {
@@ -36,7 +46,7 @@ const Login = (): JSX.Element => {
             </div>
             <div className='authSubmit'>
                 <button className={(isMailValid && password && password.length > 5) ? 'buttonEnabled' : 'buttonDisabled'}
-                        onClick={() => logIn(dispatch, email, password)}
+                        onClick={tryLogin}
                         disabled={(isMailValid && password && password.length > 5) ? false : true}>
                     Login
                 </button>
@@ -45,6 +55,13 @@ const Login = (): JSX.Element => {
             <div className='goOtherAuth'>
                 <p>Don't have an account yet? Sign up <Link to='/signup'>here</Link></p>
             </div>
+            <Popup open={(loginError) ? true : false}
+                   onClose={() => {setError('');}}>
+                { (close: Function) => (
+                <ErrorMessage errorMessage={loginError} children={
+                    <button className='clickable closeErrorButton' onClick={() => {close();}}>OK</button>} />
+                )}
+            </Popup>
         </div>
     );
 }
