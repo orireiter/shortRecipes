@@ -11,7 +11,31 @@ export const isEmailValid = (email: string): Boolean => {
 }
 
 
+export function editObjectInArray<T, Key  extends keyof T>(objIndex: number,  objArray: Array<T>, fieldName: Key, fieldValue: T[Key]): Array<T> {
+  let shallowArr = [...objArray];
+  let shallowObj = {...shallowArr[objIndex]};
+  shallowObj[fieldName] = fieldValue;
+  shallowArr[objIndex] = shallowObj;
+  return shallowArr;
+}
+
+
 // ------ REACT
+
+
+export function editObjectInArrayAndSetState<T, Key extends keyof T>(objIndex: number,  objArray: Array<T>, fieldName: Key, fieldValue: T[Key], setFunc: React.Dispatch<React.SetStateAction<Array<T>>>) {
+  let updatedArray = editObjectInArray(objIndex, objArray, fieldName, fieldValue);
+  console.log(updatedArray);
+  setFunc(updatedArray);
+}
+
+
+export function removeObjectFromArrayAndSetState<T>(objIndex: number, objArray: Array<T>, setFunc: React.Dispatch<React.SetStateAction<Array<T>>>) {
+  let shallowArr = [...objArray];
+  shallowArr.splice(objIndex, 1);
+  setFunc(shallowArr);
+};
+
 
 
 export const Redirect = (props: {redirectTo: string}): JSX.Element => {
@@ -107,7 +131,6 @@ const defaultShadeGeneratorOptions: shadeGeneratorOptions = {
 };
 
 
-// todo finish shade generator
 export function* hslShadeGenerator(hslString: string, shadeOptions: shadeGeneratorOptions = defaultShadeGeneratorOptions) {
   const hslColor = new HslColor(hslString);
   yield hslColor;
