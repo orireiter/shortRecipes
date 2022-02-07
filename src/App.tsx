@@ -21,6 +21,7 @@ import Signup from './components/Signup';
 import Home from './components/Home';
 import Header from './components/Header';
 import NavigationBar from './components/NavigationBar'
+import AddRecipe from './components/AddRecipe';
 import { Redirect, LoadingScreen } from './utils';
 
 
@@ -47,8 +48,9 @@ function App() {
         <div className="App">
           {/* <Counter /> */}
           <Routes>
-            <Route path='/*' element={<Redirect  redirectTo='/'/>} />
-            <Route path='/' element={<Home />} />
+            <Route path='/*' element={<Redirect  redirectTo='/recipes'/>} />
+            <Route path='/recipes' element={<Home />} />
+            <Route path='/recipes/add' element={<AddRecipe />} />
           </Routes>
         </div>
   }
