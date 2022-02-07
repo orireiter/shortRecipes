@@ -11,7 +11,8 @@ import config from '../config.json';
 import { authenticate, unAuthenticate } from '../slices/authSlice';
 import { closeNavbar, openLoading, closeLoading } from '../slices/generalSettingsSlice';
 
-const firebaseConfig: FirebaseOptions = config.auth.firebase;
+// todo an auth DAL and init firebase elsewhere to be accessible cross app
+const firebaseConfig: FirebaseOptions = config.firebase;
 const fireBase = initializeApp(firebaseConfig);
 const fireBaseAuth = getAuth(fireBase);
 
