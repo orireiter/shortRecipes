@@ -35,7 +35,6 @@ const Login = (): JSX.Element => {
         }
     }, [email])
 
-    // TODO add event listener to allow submitting with enter
 
     const dispatch = useAppDispatch();
 
