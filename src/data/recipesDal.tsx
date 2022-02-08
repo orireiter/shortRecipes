@@ -1,13 +1,14 @@
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+
+import { firebaseFirestore } from '../thirdParty/fireBase';
 import config from '../config.json';
 
 
-const db = getFirestore();
 const dbName = config.firebase.dbName;
 
 
 export const getMe = async () => {
-    const docRef = doc(db, dbName, "tmwUdKa3crrKKZOXiYqB");
+    const docRef = doc(firebaseFirestore, dbName, "tmwUdKa3crrKKZOXiYqB");
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
