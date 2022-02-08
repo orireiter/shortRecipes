@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 import { useAppDispatch } from '../app/hooks';
-import { signUp } from '../logic/authLogic';
+import { createUser } from '../logic/authLogic';
 import { isEmailValid, ErrorMessage } from '../utils';
 
 
@@ -16,7 +16,7 @@ const Signup = (): JSX.Element => {
     let isValidCreds = (isMailValid && password && password === passwordConfirm && password.length > 5);
 
     const trySignup = () => {
-        signUp(dispatch, email, password)
+        createUser(dispatch, email, password)
         .catch((err) => {
             setError('Something went wrong...');
         })
