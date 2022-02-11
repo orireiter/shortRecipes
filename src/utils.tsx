@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const isEmailValid = (email: string): Boolean => {
   let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email)
+  return re.test(email);
 }
 
 
@@ -25,7 +25,6 @@ export function editObjectInArray<T, Key  extends keyof T>(objIndex: number,  ob
 
 export function editObjectInArrayAndSetState<T, Key extends keyof T>(objIndex: number,  objArray: Array<T>, fieldName: Key, fieldValue: T[Key], setFunc: React.Dispatch<React.SetStateAction<Array<T>>>) {
   let updatedArray = editObjectInArray(objIndex, objArray, fieldName, fieldValue);
-  console.log(updatedArray);
   setFunc(updatedArray);
 }
 
