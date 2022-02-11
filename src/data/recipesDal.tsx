@@ -1,6 +1,7 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, collection, getDoc, addDoc } from "firebase/firestore";
 
 import { firebaseFirestore } from '../thirdParty/fireBase';
+import { detailedRecipe } from '../logic/recipesLogic';
 import config from '../config.json';
 
 
@@ -20,3 +21,8 @@ export const getMe = async () => {
 
 }
 
+
+export const saveRecipe = (recipe: detailedRecipe) => {
+    const collectionRef = collection(firebaseFirestore, dbName);
+    return addDoc(collectionRef, recipe);
+}
