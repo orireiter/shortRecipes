@@ -456,3 +456,39 @@ p {
 #newRecipeContainer {
     color: inherit;
 }
+
+#newRecipeContainer .header { 
+    padding: 2%;
+    background: #ede7e3;
+    color: #17697a;
+    font-size: 1.3em;
+}
+
+#recipeForm {
+    width: 80%;
+    margin: auto;
+    transform: translate(0, -1.5%);
+    background-color: #005b6e;
+    padding: 5%;
+    box-shadow: 0 0px 1.2em 0.0001em #00000080;
+}
+
+#recipeForm p {
+    color: #ede7e3;
+    font-size: 1em;
+}
+
+#recipeForm > div {
+    padding-top: 5%;
+}
+
+#recipeForm > div:not(:last-child) {
+    border-bottom-style: solid;
+    border-color: #ede7e3;
+    padding-bottom: 5%;
+}
+
+#addRecipeName {
+    display: flex;
+    justify-content: flex-start;
+}
