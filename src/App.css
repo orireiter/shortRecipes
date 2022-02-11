@@ -492,3 +492,23 @@ p {
     display: flex;
     justify-content: flex-start;
 }
+
+#submitRecipe {
+    text-align: center;
+}
+
+#submitRecipe button { 
+    margin: 2% auto;
+    padding: 2%;
+    font-size: 1em;
+    background-color: #005b6e;
+    color: #ede7e3;
+    border-style: none;
+    border-radius: 0.2em;
+    box-shadow: 0 0px 0.2em 0.0001em #00000080;
+    transition: ease-in-out 0.2s;
+}
+
+#submitRecipe button:hover { 
+    background-color: #004654;
+}

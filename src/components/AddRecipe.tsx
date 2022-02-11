@@ -160,7 +160,9 @@ const AddRecipe = (): JSX.Element => {
     const [ingredientArray, setIngredients] = useState<Array<ingredient>>([ingredientTemplate]);
     const [cookingStepsArray, setCookingSteps] = useState<Array<cookingStep>>([cookingStepTemplate]);
     const [tagArray, setTagArray] = useState<Array<string>>([]);
+    const [isRecipeValid, setRecipeValid] = useState<boolean>(false)
     let recipeReference = useRef<recipe>();
+
 
 
     useEffect(() => {
@@ -173,6 +175,7 @@ const AddRecipe = (): JSX.Element => {
             ingredients: ingredientArray,
             cookingSteps: cookingStepsArray
         };
+        setRecipeValid((recipeReference.current && isValidRecipe(recipeReference.current)) ? true : false)
     }, [dishName, ingredientArray, cookingStepsArray]);
 
 
@@ -199,8 +202,10 @@ const AddRecipe = (): JSX.Element => {
                     <input type='text' />
                 </div> */}
             </div>
-            <div>
-                <button onClick={() => {
+            <div id='submitRecipe'>
+                <button className={(isRecipeValid) ? 'clickable' : ''}
+                    disabled={!isRecipeValid}
+                    onClick={() => {
                     if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
                         return
                     }
