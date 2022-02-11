@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // first importing types
-import { ingredient, cookingStep, recipe } from '../logic/recipesLogic';
+import { ingredient, cookingStep, recipe, isValidRecipe } from '../logic/recipesLogic';
 
 // then functions
 import { getMe } from '../data/recipesDal';
@@ -33,9 +33,14 @@ const IngredientsForm = (props: {
                     </p>
                 </div>
                 <div>
-                    <p>Amount: <input type='number' value={ingredient.amount} placeholder='0.3'
+                    <p>Amount: <input type='text' value={ingredient.amount} placeholder='0.3'
                         onChange={(event) => {
-                            editObjectInArrayAndSetState(index, props.ingredientArray, 'amount', Number(event.target.value), props.setIngredients);
+                            let newNum = Number(event.target.value);
+                            if (isNaN(newNum)) {
+                                return
+                            }
+
+                            editObjectInArrayAndSetState(index, props.ingredientArray, 'amount', newNum, props.setIngredients);
                         }}/>
                     </p>
                 </div>
@@ -100,7 +105,7 @@ const CookingStepsForm = (props: {
                     </p>
                 </div>
                 <div>
-                    <p>Description: <input type='textarea' value={cookingStep.content} placeholder='Mix the flour with butter'
+                    <p>Description: <textarea value={cookingStep.content} placeholder='Mix the flour with butter'
                         onChange={(event) => {
                             editObjectInArrayAndSetState(index, props.cookingStepsArray, 'content', event.target.value, props.setCookingSteps);
                         }}/>
@@ -132,10 +137,29 @@ const CookingStepsForm = (props: {
 }
 
 
+const TagForm = (props: { tagArray: string[], 
+    setTagArray: React.Dispatch<React.SetStateAction<string[]>>}
+    ): JSX.Element => {
+    
+    return (
+        <div>
+            <div>
+                Tags:
+            </div>
+            <div>
+                <p>#ori_reiter</p>
+            </div>
+        </div>
+    );
+}
+
+
+
 const AddRecipe = (): JSX.Element => {
     const [dishName, setName] = useState<string>('');
     const [ingredientArray, setIngredients] = useState<Array<ingredient>>([ingredientTemplate]);
     const [cookingStepsArray, setCookingSteps] = useState<Array<cookingStep>>([cookingStepTemplate]);
+    const [tagArray, setTagArray] = useState<Array<string>>([]);
     let recipeReference = useRef<recipe>();
 
 
@@ -154,17 +178,18 @@ const AddRecipe = (): JSX.Element => {
 
     return (
         <div id='newRecipeContainer'>
-            <div>
+            <div className='header'>
                 <h2>Add a New Recipe</h2>
             </div>
-            <div>
-                <div>
+            <div id='recipeForm'>
+                <div id='addRecipeName'>
                     <p>Dish Name:</p>
                     <input type='text' value={dishName} placeholder='pizza'
                         onChange={(event) => setName(event.target.value)}/>
                 </div>
                 <IngredientsForm ingredientArray={ingredientArray} setIngredients={setIngredients}/>
                 <CookingStepsForm cookingStepsArray={cookingStepsArray} setCookingSteps={setCookingSteps}/>
+                <TagForm tagArray={tagArray} setTagArray={setTagArray}/>
                 {/* <div>
                     <p>Tags:</p>
                     <input type='text' />
@@ -175,7 +200,13 @@ const AddRecipe = (): JSX.Element => {
                 </div> */}
             </div>
             <div>
-                <button onClick={() => {console.log(recipeReference.current);}}>Save Recipe</button>
+                <button onClick={() => {
+                    if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
+                        return
+                    }
+
+                    console.log(recipeReference.current);
+                    }}>Save Recipe</button>
             </div>
         </div>
     );
