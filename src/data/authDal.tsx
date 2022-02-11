@@ -20,3 +20,7 @@ export const signOut = () => {
 export const userConnectedObserver = (callbackFunction: (arg0: User | null) => void) => {
     onAuthStateChanged(firebaseAuth, callbackFunction)
 }
+
+export const getCurrentUser = () => {
+    return firebaseAuth.currentUser
+}
