@@ -1,7 +1,7 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import { Dispatch } from 'react';
 
-import { signUp, signIn, signOut, userConnectedObserver } from '../data/authDal';
+import { signUp, signIn, signOut, userConnectedObserver, getCurrentUser } from '../data/authDal';
 import { authenticate, unAuthenticate } from '../slices/authSlice';
 import { closeNavbar, openLoading, closeLoading } from '../slices/generalSettingsSlice';
 
@@ -43,4 +43,8 @@ export const logOut = (dispatch: Dispatch<AnyAction>) => {
     dispatch(closeNavbar());
     signOut()
     .finally(() => dispatch(closeLoading()));
+}
+
+export const getUser = () => {
+    return getCurrentUser();
 }
