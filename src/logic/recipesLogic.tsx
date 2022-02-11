@@ -1,3 +1,7 @@
+import { User } from 'firebase/auth';
+import {getUser } from './authLogic';
+import { saveRecipe } from '../data/recipesDal';
+
 // types
 
 export type ingredient = {
@@ -18,6 +22,13 @@ export type recipe = {
     ingredients: Array<ingredient>,
     cookingSteps: Array<cookingStep>,
     tags?: Array<string>
+}
+
+export type detailedRecipe = recipe & {
+    creationDate: Date,
+    isPublic: boolean,
+    userId: User['uid'],
+    userName: User['email']
 }
 
 
@@ -55,4 +66,25 @@ export const isValidRecipe = (recipe: recipe) => {
     }
 
     return true;
+}
+
+
+// logic
+
+
+export const submitRecipe = (recipe: recipe) => {
+    let currentUser = getUser();
+    
+    if (!currentUser) {
+        throw new Error('somehow no user');
+    }
+
+    const detailedRecipe: detailedRecipe = {...recipe, 
+        creationDate: new Date(),
+        userId: currentUser.uid,
+        userName: currentUser.email,
+        isPublic: true
+    }
+
+    return saveRecipe(detailedRecipe);
 }

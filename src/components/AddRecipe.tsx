@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ingredient, cookingStep, recipe, isValidRecipe } from '../logic/recipesLogic';
 
 // then functions
-import { getMe } from '../data/recipesDal';
+import { submitRecipe } from '../logic/recipesLogic';
 import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState } from '../utils';
 
 
@@ -210,7 +210,7 @@ const AddRecipe = (): JSX.Element => {
                         return
                     }
 
-                    console.log(recipeReference.current);
+                    submitRecipe(recipeReference.current);
                     }}>Save Recipe</button>
             </div>
         </div>
