@@ -425,6 +425,7 @@ p {
 .recipeName {
     width: 90%;
     margin: 3% auto;
+    text-transform: capitalize;
 }
 
 .recipeSummaryContainer h2 {

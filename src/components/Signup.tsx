@@ -17,7 +17,8 @@ const Signup = (): JSX.Element => {
 
     const trySignup = () => {
         createUser(dispatch, email, password)
-        .catch((err) => {
+        // TODO add a 'waiting for email verification' page
+        .catch(() => {
             setError('Something went wrong...');
         })
     }

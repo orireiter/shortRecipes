@@ -1,7 +1,7 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import { Dispatch } from 'react';
 
-import { signUp, signIn, signOut, userConnectedObserver, getCurrentUser } from '../data/authDal';
+import { signUpSendVerificationMail, signIn, signOut, userConnectedObserver, getCurrentUser } from '../data/authDal';
 import { authenticate, unAuthenticate } from '../slices/authSlice';
 import { closeNavbar, openLoading, closeLoading } from '../slices/generalSettingsSlice';
 
@@ -22,7 +22,7 @@ export const checkUserConnected = (dispatch: Dispatch<AnyAction>) => {
 
 export const createUser = (dispatch: Dispatch<AnyAction>, email: string, password: string) => {
     dispatch(openLoading());
-    return signUp(email, password)
+    return signUpSendVerificationMail(email, password)
     .then(() => dispatch(authenticate()))
     .finally(() => dispatch(closeLoading()));
 }

@@ -1,12 +1,14 @@
 import { createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     onAuthStateChanged, 
-    signOut as logOut, User } from 'firebase/auth';
+    signOut as logOut, 
+    sendEmailVerification, User, } from 'firebase/auth';
 
 import { firebaseAuth } from '../thirdParty/fireBase';
 
-export const signUp = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(firebaseAuth, email, password)
+export const signUpSendVerificationMail = async (email: string, password: string) => {
+    const userCred = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+    return sendEmailVerification(userCred.user)
 }
 
 export const signIn = (email: string, password: string) => {
