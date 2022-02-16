@@ -1,10 +1,10 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 import { useAppSelector } from '../app/hooks';
 import { useAppDispatch } from '../app/hooks';
-import { selectGeneralSettings } from '../slices/generalSettingsSlice';
+import { selectGeneralSettings, closeNavbar } from '../slices/generalSettingsSlice';
 import { logOut } from '../logic/authLogic';
 
 
@@ -42,11 +42,25 @@ function SignOut() {
 
 export default function NavigationBar() {
     const generalSettings = useAppSelector(selectGeneralSettings);
+    const dispatch = useAppDispatch();
 
     return (
         <div id='navigationBar' className={(generalSettings.isNavbarOpen) ? 'navOpen' : 'navClosed'}>
-            <div>
-                navigation options here
+            <div id='navigationLinks'>
+                <Link to='/recipes' className='navigationLink clickable notDraggable'
+                        onClick={() => dispatch(closeNavbar())}>
+                    <span className="material-icons">
+                        kitchen
+                    </span>
+                    <h2>All Recipes</h2>
+                </Link>
+                <Link to='/recipes/add' className='navigationLink clickable notDraggable'
+                    onClick={() => dispatch(closeNavbar())}>
+                    <span className="material-icons">
+                        add
+                    </span>
+                    <h2>Add Recipe</h2>
+                </Link>
             </div>
             <div id='navigationSettings'>
                 < SignOut/>

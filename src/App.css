@@ -194,6 +194,7 @@ p {
 #navbarToggle span {
     color: #ede7e3;
     font-size: 2.5em;
+    border-radius: 0.2em;
 }
 
 #navbarToggle {
@@ -234,6 +235,8 @@ p {
     display: flex;
     justify-content: space-between;
     margin-bottom: 4%;
+    border-top-style: solid;
+    padding-top: 5%;
 }
 
 #navLogout {
@@ -253,10 +256,10 @@ p {
     border-radius: 100%;
 }
 
-#navSettingsButton, #navLogout, #logoutPopupButtons button {
+#navSettingsButton, #navLogout, #logoutPopupButtons button, #navbarToggle span {
     transition: ease-in-out 0.2s;
 }
-#navSettingsButton:hover, #navLogout:hover {
+#navSettingsButton:hover, #navLogout:hover, #navbarToggle span:hover {
     background-color: #114f5c;
 }
 
@@ -293,6 +296,24 @@ p {
     background-color: #c9c9c9;
 }
 
+.navigationLink {
+    display: flex;
+    padding: 5%;
+    border-bottom-style: solid;
+    align-items: center;
+    transition: ease-in-out 0.2s;
+    color: inherit;
+    text-decoration: none;
+}
+
+.navigationLink:hover {
+    background-color: #114f5c;
+}
+
+.navigationLink span {
+    margin-right: 5%;
+}
+
 /* || credits */
 
 #madeBy {
@@ -325,7 +346,6 @@ p {
     margin: auto;
     padding-top: 2%;
     text-align: center;
-    /* background-color: #56a09c; */
     border-radius: 0.8em;
 }
 
@@ -405,6 +425,7 @@ p {
 .recipeName {
     width: 90%;
     margin: 3% auto;
+    text-transform: capitalize;
 }
 
 .recipeSummaryContainer h2 {
@@ -428,4 +449,67 @@ p {
 
 .recipeAuthor, .recipeLastUpdate{
     margin: 3% auto;
+}
+
+
+/* || new recipe */
+
+#newRecipeContainer {
+    color: inherit;
+}
+
+#newRecipeContainer .header { 
+    padding: 2%;
+    background: #ede7e3;
+    color: #17697a;
+    font-size: 1.3em;
+}
+
+#recipeForm {
+    width: 80%;
+    margin: auto;
+    transform: translate(0, -1.5%);
+    background-color: #005b6e;
+    padding: 5%;
+    box-shadow: 0 0px 1.2em 0.0001em #00000080;
+}
+
+#recipeForm p {
+    color: #ede7e3;
+    font-size: 1em;
+}
+
+#recipeForm > div {
+    padding-top: 5%;
+}
+
+#recipeForm > div:not(:last-child) {
+    border-bottom-style: solid;
+    border-color: #ede7e3;
+    padding-bottom: 5%;
+}
+
+#addRecipeName {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#submitRecipe {
+    text-align: center;
+}
+
+#submitRecipe button { 
+    margin: 2% auto;
+    padding: 2%;
+    font-size: 1em;
+    background-color: #005b6e;
+    color: #ede7e3;
+    border-style: none;
+    border-radius: 0.2em;
+    box-shadow: 0 0px 0.2em 0.0001em #00000080;
+    transition: ease-in-out 0.2s;
+}
+
+#submitRecipe button:hover { 
+    background-color: #004654;
 }
