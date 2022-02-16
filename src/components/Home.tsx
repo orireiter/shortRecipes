@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { getAllPublicRecipes } from '../data/recipesDal';
 import { hslShadeGenerator } from '../utils';
 
 
@@ -24,19 +25,28 @@ const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipe
 
 
 const Home = (): JSX.Element => {
-    let recipeProps = {recipeName: 'Pizza', recipeCreator:'Amit Komidi', recipeLastUpdate: new Date()};
     const genie = hslShadeGenerator('hsl(191deg 60% 38%)');
+    const [recipeArray, setRecipes] = useState<Array<JSX.Element>>([]);
 
-    let ori = [];
-    let i = 0;
-    while (i <= 140 ) {
-        ori.push(<RecipeSummary {...recipeProps} key={Math.random()} backgroundColor={genie.next().value.toHslString() || 'transparent'} />);
-        i += 1
-    }
+    useEffect(() => {
+        /* TODO instead create a nextRecipes generator, that takes the last recipe and is called each time, 
+        retrieving only some when scrolling to bottom*/
+        getAllPublicRecipes()
+        .then((querySnapshot) => {
+            let tempArray: Array<JSX.Element> = [];
+            querySnapshot.forEach((recipeDoc) => {
+                let recipeData = recipeDoc.data();
+                let recipeSummary = <RecipeSummary recipeName={recipeData.recipeName} recipeCreator={recipeData.userName} recipeLastUpdate={recipeData.creationDate.toDate()} key={Math.random()} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>
+                tempArray.push(recipeSummary);
+            });
+            setRecipes([...recipeArray, ...tempArray]);
+        });
+    }, []);
+
     return (
         <div>
             <div id='allRecipeGrid'>
-                {ori}
+                {recipeArray}
             </div>
         </div>
     );
