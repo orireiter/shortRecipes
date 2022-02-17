@@ -9,7 +9,7 @@ const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipe
     return (
         <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
             <div className='recipeName'>
-                <Link to={`/${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
+                <Link to={`${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
             </div>
             <div className='recipeThumbnail'>
                 <img src='https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max' alt='pizza'/>
