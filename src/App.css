@@ -428,8 +428,10 @@ p {
     text-transform: capitalize;
 }
 
-.recipeSummaryContainer h2 {
+.recipeSummaryContainer a {
     font-size: 2em;
+    color: inherit;
+    text-decoration: none;
 }
 
 .recipeSummaryContainer div {

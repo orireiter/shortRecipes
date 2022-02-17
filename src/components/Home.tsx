@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { getAllPublicRecipes } from '../data/recipesDal';
 import { hslShadeGenerator } from '../utils';
 
 
-const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string}): JSX.Element => {
+const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string, recipeId: string}): JSX.Element => {
     return (
         <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
             <div className='recipeName'>
-                <h2>{props.recipeName}</h2>
+                <Link to={`/${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
             </div>
             <div className='recipeThumbnail'>
                 <img src='https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max' alt='pizza'/>
@@ -35,8 +36,13 @@ const Home = (): JSX.Element => {
         .then((querySnapshot) => {
             let tempArray: Array<JSX.Element> = [];
             querySnapshot.forEach((recipeDoc) => {
+                let isRecipeExistAlready = recipeArray.find(recipe => recipe.key === recipeDoc.id);
+                if (isRecipeExistAlready) {
+                    return
+                };
+
                 let recipeData = recipeDoc.data();
-                let recipeSummary = <RecipeSummary recipeName={recipeData.recipeName} recipeCreator={recipeData.userName} recipeLastUpdate={recipeData.creationDate.toDate()} key={Math.random()} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>
+                let recipeSummary = <RecipeSummary recipeName={recipeData.recipeName} recipeCreator={recipeData.userName} recipeLastUpdate={recipeData.creationDate.toDate()} recipeId={recipeDoc.id} key={recipeDoc.id} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>
                 tempArray.push(recipeSummary);
             });
             setRecipes([...recipeArray, ...tempArray]);
