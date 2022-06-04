@@ -105,11 +105,11 @@ const CookingStepsForm = (props: {
                     </p>
                 </div>
                 <div>
-                    <p>Description: <textarea value={cookingStep.content} placeholder='Mix the flour with butter'
+                    <p>Description:</p>
+                    <textarea value={cookingStep.content} placeholder='Mix the flour with butter'
                         onChange={(event) => {
                             editObjectInArrayAndSetState(index, props.cookingStepsArray, 'content', event.target.value, props.setCookingSteps);
                         }}/>
-                    </p>
                 </div>
                 {(stepsLength > 1) ? 
                 <span className="material-icons clickable" 
@@ -166,7 +166,6 @@ const AddRecipe = (): JSX.Element => {
 
 
     useEffect(() => {
-        // getMe(); 
         return (() => {recipeReference.current = undefined});
     }, []);
     useEffect(() => {
@@ -178,7 +177,7 @@ const AddRecipe = (): JSX.Element => {
         setRecipeValid((recipeReference.current && isValidRecipe(recipeReference.current)) ? true : false)
     }, [dishName, ingredientArray, cookingStepsArray]);
 
-
+    // TODO toggle if recipe is private or public
     return (
         <div id='newRecipeContainer'>
             <div className='header'>
@@ -201,8 +200,7 @@ const AddRecipe = (): JSX.Element => {
                     <p>Attach a Video:</p>
                     <input type='text' />
                 </div> */}
-            </div>
-            <div id='submitRecipe'>
+                <div id='submitRecipe'>
                 <button className={(isRecipeValid) ? 'clickable' : ''}
                     disabled={!isRecipeValid}
                     onClick={() => {
@@ -212,6 +210,7 @@ const AddRecipe = (): JSX.Element => {
 
                     submitRecipe(recipeReference.current);
                     }}>Save Recipe</button>
+            </div>
             </div>
         </div>
     );

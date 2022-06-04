@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { getRecipe } from '../data/recipesDal';
+import { getRecipe } from '../logic/recipesLogic';
 
 
 const ViewRecipe = (): JSX.Element => {
@@ -12,13 +12,52 @@ const ViewRecipe = (): JSX.Element => {
     
     useEffect(() => {
         getRecipe(params.recipeId || '')
-        .then((recipeDoc) => {
+        .then(recipe =>  {
+            let stepsArray = recipe.cookingSteps.map((value) => {
+                return (
+                    <div key={value.num}>
+                        <h3>
+                            {value.num}.{(value.title) ? ` ${value.title}`: ''}
+                        </h3>
+                        <p>
+                            {value.content}
+                        </p>
+                    </div>
+                );
+            });
             setContent(
-                <div>
-                    <p>{JSON.stringify(recipeDoc.data())}</p>
-                </div>);
-        })
-        .catch(() => {})
+                <div id='recipeView'>
+                    <div>
+                        <h1 className='recipeName'>
+                            {recipe.recipeName}
+                        </h1>
+                    </div>
+                    <div>
+                        <div>
+                            <h2>
+                                Ingrdients
+                            </h2>
+                            <ul>
+                                {recipe.ingredients.map((value, index) => {
+                                    return (
+                                        <li key={index}>{value.amount} {value.amountType} of {value.name}{(value.details) ? ` - ${value.details}` : ''}</li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>
+                                Steps
+                            </h2>
+                            <div id='recipeViewSteps'>
+                                {stepsArray.sort((a, b) => Number(a.key) - Number(b.key))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                )
+        });
+        
         
     }, [])
     

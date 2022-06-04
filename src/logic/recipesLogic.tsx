@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import {getUser } from './authLogic';
-import { saveRecipe } from '../data/recipesDal';
+import { saveRecipe, getRecipe as fetchRecipe } from '../data/recipesDal';
 
 // types
 
@@ -87,4 +87,23 @@ export const submitRecipe = (recipe: recipe) => {
     }
 
     return saveRecipe(detailedRecipe);
+}
+
+export const getRecipe = async (recipeId: string) => {
+    const snapshot = await fetchRecipe(recipeId);
+
+    let snapshotData = snapshot.data();
+    if (!snapshotData) {
+        throw new Error('No such recipe...')
+    }
+    let recipeData: recipe = {
+        recipeName: snapshotData.recipeName,
+        ingredients: snapshotData.ingredients,
+        cookingSteps: snapshotData.cookingSteps
+    }
+
+    if (snapshotData.tags) {
+        recipeData.tags = snapshotData.tags
+    }
+    return recipeData
 }

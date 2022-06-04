@@ -462,23 +462,28 @@ p {
 
 #newRecipeContainer .header { 
     padding: 2%;
-    background: #ede7e3;
-    color: #17697a;
+    background: #285760;
+    color: white;
     font-size: 1.3em;
 }
 
 #recipeForm {
     width: 80%;
     margin: auto;
-    transform: translate(0, -1.5%);
-    background-color: #005b6e;
+    background-color: #BCD3D7;
     padding: 5%;
-    box-shadow: 0 0px 1.2em 0.0001em #00000080;
+    box-shadow: 0 10px 1.2em 0.0001em #00000080;
 }
 
 #recipeForm p {
-    color: #ede7e3;
     font-size: 1em;
+}
+
+#recipeForm input {
+    margin-left: 2%;
+    background-color: transparent;
+    border-style: none none solid none;
+    border-color: #27565f;
 }
 
 #recipeForm > div {
@@ -487,7 +492,7 @@ p {
 
 #recipeForm > div:not(:last-child) {
     border-bottom-style: solid;
-    border-color: #ede7e3;
+    border-color: #27565f;
     padding-bottom: 5%;
 }
 
@@ -504,8 +509,9 @@ p {
     margin: 2% auto;
     padding: 2%;
     font-size: 1em;
-    background-color: #005b6e;
-    color: #ede7e3;
+    font-weight: bold;
+    background-color: #27565f;
+    color: #bcd3d7;
     border-style: none;
     border-radius: 0.2em;
     box-shadow: 0 0px 0.2em 0.0001em #00000080;
@@ -514,4 +520,25 @@ p {
 
 #submitRecipe button:hover { 
     background-color: #004654;
+}
+
+
+/* || view recipe */
+
+
+#recipeView {
+    width: 80%;
+    margin: auto;
+    background-color: #BCD3D7;
+    padding: 5%;
+    /* box-shadow: 0 10px 1.2em 0.0001em #00000080; */
+}
+
+#recipeView h1 { 
+    margin: 0 0 5% 0;
+    text-decoration: underline;
+}
+
+#recipeViewSteps {
+    margin-left: 3%;
 }
