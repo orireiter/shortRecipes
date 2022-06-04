@@ -53,6 +53,15 @@ const ViewRecipe = (): JSX.Element => {
                                 {stepsArray.sort((a, b) => Number(a.key) - Number(b.key))}
                             </div>
                         </div>
+                        {(recipe.tags ?
+                        <div>
+                            <h2>
+                                Tags
+                            </h2>
+                            <div>
+                                {recipe.tags.join(', ')}
+                            </div>
+                        </div> : null)}
                     </div>
                 </div>
                 )

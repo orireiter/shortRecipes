@@ -146,7 +146,8 @@ const TagForm = (props: { tagArray: string[],
     const suppliedTags: Array<JSX.Element> = props.tagArray.map((tag, index) => {
         return (
             <div key={index} style={{display: 'flex'}}>
-                <p onClick={() => removeObjectFromArrayAndSetState(index, props.tagArray, props.setTagArray)}>
+                <p className='clickable'
+                 onClick={() => removeObjectFromArrayAndSetState(index, props.tagArray, props.setTagArray)}>
                     {tag}
                 </p>
                 {(tagsLength === index + 1) ? 
