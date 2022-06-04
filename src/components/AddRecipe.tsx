@@ -105,11 +105,11 @@ const CookingStepsForm = (props: {
                     </p>
                 </div>
                 <div>
-                    <p>Description: <textarea value={cookingStep.content} placeholder='Mix the flour with butter'
+                    <p>Description:</p>
+                    <textarea value={cookingStep.content} placeholder='Mix the flour with butter'
                         onChange={(event) => {
                             editObjectInArrayAndSetState(index, props.cookingStepsArray, 'content', event.target.value, props.setCookingSteps);
                         }}/>
-                    </p>
                 </div>
                 {(stepsLength > 1) ? 
                 <span className="material-icons clickable" 
@@ -140,14 +140,46 @@ const CookingStepsForm = (props: {
 const TagForm = (props: { tagArray: string[], 
     setTagArray: React.Dispatch<React.SetStateAction<string[]>>}
     ): JSX.Element => {
+    const [tag, setTag] = useState<string>('');
+    const tagsLength = props.tagArray.length;
+    
+    const suppliedTags: Array<JSX.Element> = props.tagArray.map((tag, index) => {
+        return (
+            <div key={index} style={{display: 'flex'}}>
+                <p className='clickable'
+                 onClick={() => removeObjectFromArrayAndSetState(index, props.tagArray, props.setTagArray)}>
+                    {tag}
+                </p>
+                {(tagsLength === index + 1) ? 
+                null : <p>,&nbsp;&nbsp;</p>}
+            </div>
+        );
+    });
     
     return (
         <div>
             <div>
                 Tags:
             </div>
+            <div style={{display: 'flex'}}>
+                {suppliedTags}
+            </div>
             <div>
-                <p>#ori_reiter</p>
+                <input value={tag}
+                    onKeyPress={(event) => {
+                        if (event.key === 'Enter') {
+                            let tagToSave = tag;
+                            if (tagToSave[0] !== '#') {
+                                tagToSave = '#' + tagToSave;
+                            };
+
+                            props.setTagArray([...props.tagArray, tagToSave]);
+                            setTag('');
+                        }
+                    }}
+                    onChange={(event) => {
+                        setTag(event.target.value);
+                    }}/>
             </div>
         </div>
     );
@@ -166,19 +198,19 @@ const AddRecipe = (): JSX.Element => {
 
 
     useEffect(() => {
-        // getMe(); 
         return (() => {recipeReference.current = undefined});
     }, []);
     useEffect(() => {
         recipeReference.current = {
             recipeName: dishName,
             ingredients: ingredientArray,
-            cookingSteps: cookingStepsArray
+            cookingSteps: cookingStepsArray,
+            tags: tagArray
         };
         setRecipeValid((recipeReference.current && isValidRecipe(recipeReference.current)) ? true : false)
     }, [dishName, ingredientArray, cookingStepsArray]);
 
-
+    // TODO toggle if recipe is private or public
     return (
         <div id='newRecipeContainer'>
             <div className='header'>
@@ -194,15 +226,10 @@ const AddRecipe = (): JSX.Element => {
                 <CookingStepsForm cookingStepsArray={cookingStepsArray} setCookingSteps={setCookingSteps}/>
                 <TagForm tagArray={tagArray} setTagArray={setTagArray}/>
                 {/* <div>
-                    <p>Tags:</p>
-                    <input type='text' />
-                </div>
-                <div>
                     <p>Attach a Video:</p>
                     <input type='text' />
                 </div> */}
-            </div>
-            <div id='submitRecipe'>
+                <div id='submitRecipe'>
                 <button className={(isRecipeValid) ? 'clickable' : ''}
                     disabled={!isRecipeValid}
                     onClick={() => {
@@ -212,6 +239,7 @@ const AddRecipe = (): JSX.Element => {
 
                     submitRecipe(recipeReference.current);
                     }}>Save Recipe</button>
+            </div>
             </div>
         </div>
     );

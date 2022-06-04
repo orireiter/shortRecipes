@@ -22,6 +22,7 @@ import Home from './components/Home';
 import Header from './components/Header';
 import NavigationBar from './components/NavigationBar'
 import AddRecipe from './components/AddRecipe';
+import ViewRecipe from './components/ViewRecipe';
 import { Redirect, LoadingScreen } from './utils';
 
 
@@ -51,6 +52,7 @@ function App() {
             <Route path='/*' element={<Redirect  redirectTo='/recipes'/>} />
             <Route path='/recipes' element={<Home />} />
             <Route path='/recipes/add' element={<AddRecipe />} />
+            <Route path='/recipes/:recipeId' element={<ViewRecipe />} />
           </Routes>
         </div>
   }
