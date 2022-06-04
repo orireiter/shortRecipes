@@ -140,14 +140,45 @@ const CookingStepsForm = (props: {
 const TagForm = (props: { tagArray: string[], 
     setTagArray: React.Dispatch<React.SetStateAction<string[]>>}
     ): JSX.Element => {
+    const [tag, setTag] = useState<string>('');
+    const tagsLength = props.tagArray.length;
+    
+    const suppliedTags: Array<JSX.Element> = props.tagArray.map((tag, index) => {
+        return (
+            <div key={index} style={{display: 'flex'}}>
+                <p onClick={() => removeObjectFromArrayAndSetState(index, props.tagArray, props.setTagArray)}>
+                    {tag}
+                </p>
+                {(tagsLength === index + 1) ? 
+                null : <p>,&nbsp;&nbsp;</p>}
+            </div>
+        );
+    });
     
     return (
         <div>
             <div>
                 Tags:
             </div>
+            <div style={{display: 'flex'}}>
+                {suppliedTags}
+            </div>
             <div>
-                <p>#ori_reiter</p>
+                <input value={tag}
+                    onKeyPress={(event) => {
+                        if (event.key === 'Enter') {
+                            let tagToSave = tag;
+                            if (tagToSave[0] !== '#') {
+                                tagToSave = '#' + tagToSave;
+                            };
+
+                            props.setTagArray([...props.tagArray, tagToSave]);
+                            setTag('');
+                        }
+                    }}
+                    onChange={(event) => {
+                        setTag(event.target.value);
+                    }}/>
             </div>
         </div>
     );
@@ -172,7 +203,8 @@ const AddRecipe = (): JSX.Element => {
         recipeReference.current = {
             recipeName: dishName,
             ingredients: ingredientArray,
-            cookingSteps: cookingStepsArray
+            cookingSteps: cookingStepsArray,
+            tags: tagArray
         };
         setRecipeValid((recipeReference.current && isValidRecipe(recipeReference.current)) ? true : false)
     }, [dishName, ingredientArray, cookingStepsArray]);
@@ -193,10 +225,6 @@ const AddRecipe = (): JSX.Element => {
                 <CookingStepsForm cookingStepsArray={cookingStepsArray} setCookingSteps={setCookingSteps}/>
                 <TagForm tagArray={tagArray} setTagArray={setTagArray}/>
                 {/* <div>
-                    <p>Tags:</p>
-                    <input type='text' />
-                </div>
-                <div>
                     <p>Attach a Video:</p>
                     <input type='text' />
                 </div> */}
