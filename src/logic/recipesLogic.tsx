@@ -1,6 +1,32 @@
 import { User } from 'firebase/auth';
-import {getUser } from './authLogic';
-import { saveRecipe, getRecipe as fetchRecipe } from '../data/recipesDal';
+import { Link } from 'react-router-dom';
+
+import { getUser } from './authLogic';
+import { hslShadeGenerator } from '../utils';
+import { saveRecipe, getRecipe as fetchRecipe, getPublicRecipes } from '../data/recipesDal';
+
+// JSX
+
+
+const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string, recipeId: string}): JSX.Element => {
+    return (
+        <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
+            <div className='recipeName'>
+                <Link to={`${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
+            </div>
+            <div className='recipeThumbnail'>
+                <img src='https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max' alt='pizza'/>
+            </div>
+            <div className='recipeAuthor'>
+                <p>By: {props.recipeCreator}</p>
+            </div>
+            <div className='recipeLastUpdate'>
+                <p>Last Update: {props.recipeLastUpdate.toLocaleDateString()}</p>
+            </div>
+        </div>
+    );
+}
+
 
 // types
 
@@ -106,4 +132,33 @@ export const getRecipe = async (recipeId: string) => {
         recipeData.tags = snapshotData.tags
     }
     return recipeData
+}
+
+export async function *getAllPublicRecipesPaginated() {
+    const genie = hslShadeGenerator('hsl(191deg 60% 38%)');
+    let lastVisible = null; 
+    let recipeArray: Array<JSX.Element> = [];
+    
+    while (true) {
+        let querySnapshot = await getPublicRecipes(25, lastVisible)
+        if (querySnapshot.empty) {
+            return recipeArray;
+        }
+
+        querySnapshot.forEach((recipeDoc) => {
+            let isRecipeExistAlready = recipeArray.find(recipe => recipe.key === recipeDoc.id);
+            if (isRecipeExistAlready) {
+                return
+            };
+
+            let recipeData = recipeDoc.data();
+            let recipeSummary = <RecipeSummary recipeName={recipeData.recipeName} recipeCreator={recipeData.userName} recipeLastUpdate={recipeData.creationDate.toDate()} recipeId={recipeDoc.id} key={recipeDoc.id} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>
+            recipeArray.push(recipeSummary);
+            lastVisible = recipeDoc;
+        });
+        
+        yield recipeArray
+    }
+
+    return recipeArray;
 }

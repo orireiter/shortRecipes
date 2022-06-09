@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getRecipe } from '../logic/recipesLogic';
+import { LoadingScreen } from '../utils'
 
 
 const ViewRecipe = (): JSX.Element => {
-    const [content, setContent] = useState<JSX.Element>(<div>
-        <p>ori gever</p>
-    </div>);
+    const [content, setContent] = useState<JSX.Element>(<LoadingScreen />);
     let params = useParams();
     
     useEffect(() => {
