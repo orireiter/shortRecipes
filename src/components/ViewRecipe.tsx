@@ -58,7 +58,7 @@ const ViewRecipe = (): JSX.Element => {
                                 Tags
                             </h2>
                             <div>
-                                {recipe.tags.join(', ')}
+                                {recipe.tags.map((tag) => '#' + tag).join(', ')}
                             </div>
                         </div> : null)}
                     </div>

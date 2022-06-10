@@ -15,12 +15,16 @@ export const getRecipe = (recipeId: string) => {
 }
 
 
-export const getPublicRecipes = (retrieveAtATime: number=25, startAfterThisDoc: DocumentReference|null=null) => {
-    let allRecipeQuery = query(collectionRef, where('isPublic', '==', true), orderBy('creationDate', 'desc'), limit(retrieveAtATime));
+export const getPublicRecipes = (retrieveAtATime: number=25, startAfterThisDoc: DocumentReference|null=null, queryString: string|null=null) => {
+    let publicRecipeQuery = query(collectionRef, where('isPublic', '==', true), orderBy('creationDate', 'desc'), limit(retrieveAtATime));
     if (startAfterThisDoc) {
-        allRecipeQuery = query(allRecipeQuery, startAfter(startAfterThisDoc))
+        publicRecipeQuery = query(publicRecipeQuery, startAfter(startAfterThisDoc))
     }
-    return getDocs(allRecipeQuery);
+
+    if (queryString) {
+        publicRecipeQuery = query(publicRecipeQuery, where('tags', 'array-contains-any', [queryString]))
+    }
+    return getDocs(publicRecipeQuery);
 }
 
 export const saveRecipe = (recipe: detailedRecipe) => {

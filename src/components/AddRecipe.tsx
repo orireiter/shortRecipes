@@ -148,7 +148,7 @@ const TagForm = (props: { tagArray: string[],
             <div key={index} style={{display: 'flex'}}>
                 <p className='clickable'
                  onClick={() => removeObjectFromArrayAndSetState(index, props.tagArray, props.setTagArray)}>
-                    {tag}
+                    {tag.startsWith('#') ? null : '#'}{tag}
                 </p>
                 {(tagsLength === index + 1) ? 
                 null : <p>,&nbsp;&nbsp;</p>}
@@ -169,9 +169,6 @@ const TagForm = (props: { tagArray: string[],
                     onKeyPress={(event) => {
                         if (event.key === 'Enter') {
                             let tagToSave = tag;
-                            if (tagToSave[0] !== '#') {
-                                tagToSave = '#' + tagToSave;
-                            };
 
                             props.setTagArray([...props.tagArray, tagToSave]);
                             setTag('');

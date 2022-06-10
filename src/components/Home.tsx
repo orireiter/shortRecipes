@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { getAllPublicRecipesPaginated } from '../logic/recipesLogic';
 
 
 const Home = (): JSX.Element => {
-    const publicRecipesGenerator  = getAllPublicRecipesPaginated();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [recipeArray, setRecipes] = useState<Array<JSX.Element>>([]);
 
     useEffect(() => {
+        let queryString;
+        if (searchParams.get('query')) {
+            // todo make it update
+            queryString = searchParams.get('query')?.toLowerCase();
+        }
+
+        const publicRecipesGenerator  = getAllPublicRecipesPaginated(queryString);
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {

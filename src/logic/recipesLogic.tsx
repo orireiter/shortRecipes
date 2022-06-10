@@ -105,6 +105,9 @@ export const submitRecipe = (recipe: recipe) => {
         throw new Error('somehow no user');
     }
 
+    recipe.tags = recipe.tags?.map((tag) => tag.toLowerCase()) || [];
+    recipe.tags = recipe.tags.concat(recipe.recipeName.split(' ').map((word) => word.toLowerCase()))    
+    
     const detailedRecipe: detailedRecipe = {...recipe, 
         creationDate: new Date(),
         userId: currentUser.uid,
@@ -134,13 +137,13 @@ export const getRecipe = async (recipeId: string) => {
     return recipeData
 }
 
-export async function *getAllPublicRecipesPaginated() {
+export async function *getAllPublicRecipesPaginated(queryString: string|null=null) {
     const genie = hslShadeGenerator('hsl(191deg 60% 38%)');
     let lastVisible = null; 
     let recipeArray: Array<JSX.Element> = [];
     
     while (true) {
-        let querySnapshot = await getPublicRecipes(25, lastVisible)
+        let querySnapshot = await getPublicRecipes(25, lastVisible, queryString);
         if (querySnapshot.empty) {
             return recipeArray;
         }
