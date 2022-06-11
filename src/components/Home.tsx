@@ -9,6 +9,7 @@ const Home = (): JSX.Element => {
     const [recipeArray, setRecipes] = useState<Array<JSX.Element>>([]);
 
     useEffect(() => {
+        setRecipes([])
         let queryString;
         if (searchParams.get('query')) {
             // todo make it update
@@ -35,7 +36,7 @@ const Home = (): JSX.Element => {
         }
       
         return () => { observer.disconnect() }
-    }, []);
+    }, [searchParams]);
 
     return (
         <div>
