@@ -98,16 +98,21 @@ export const isValidRecipe = (recipe: recipe) => {
 // logic
 
 
-export const submitRecipe = (recipe: recipe) => {
+export const submitRecipe = async (recipe: recipe) => {
     let currentUser = getUser();
     
     if (!currentUser) {
         throw new Error('somehow no user');
     }
 
-    recipe.tags = recipe.tags?.map((tag) => tag.toLowerCase()) || [];
-    recipe.tags = recipe.tags.concat(recipe.recipeName.split(' ').map((word) => word.toLowerCase()))    
-    
+    recipe.tags = recipe.tags || [];
+    const tagsPromises = recipe.tags.map((tag) => tag.toLowerCase());
+    recipe.tags = await Promise.all(tagsPromises);
+
+    const extraTagsPromises = recipe.recipeName.split(' ').map((word) => word.toLowerCase());
+    const extraTags = await Promise.all(extraTagsPromises);
+    recipe.tags = recipe.tags.concat(extraTags);    
+
     const detailedRecipe: detailedRecipe = {...recipe, 
         creationDate: new Date(),
         userId: currentUser.uid,

@@ -168,9 +168,10 @@ const TagForm = (props: { tagArray: string[],
                 <input value={tag}
                     onKeyPress={(event) => {
                         if (event.key === 'Enter') {
-                            let tagToSave = tag;
-
-                            props.setTagArray([...props.tagArray, tagToSave]);
+                            if (!props.tagArray.includes(tag)) {
+                                let tagToSave = tag;
+                                props.setTagArray([...props.tagArray, tagToSave]);
+                            }
                             setTag('');
                         }
                     }}
@@ -230,6 +231,7 @@ const AddRecipe = (): JSX.Element => {
                 <button className={(isRecipeValid) ? 'clickable' : ''}
                     disabled={!isRecipeValid}
                     onClick={() => {
+                    console.log(recipeReference.current)
                     if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
                         return
                     }
