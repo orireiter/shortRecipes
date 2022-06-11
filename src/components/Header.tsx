@@ -47,8 +47,12 @@ export default function Header() {
                             onKeyPress={(event) => {
                             if (event.key === 'Enter') {
                                 goToSearch();
-                            }
-                    }}/>
+                            }}}/>
+                        <span className='material-icons clickable' style={{color: '#757575'}} onClick={() => {
+                                setSearchTerm('');
+                            }}>
+                            close
+                        </span>
                     </div>
                 </div> : null}
             </div>
