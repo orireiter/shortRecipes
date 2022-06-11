@@ -231,7 +231,6 @@ const AddRecipe = (): JSX.Element => {
                 <button className={(isRecipeValid) ? 'clickable' : ''}
                     disabled={!isRecipeValid}
                     onClick={() => {
-                    console.log(recipeReference.current)
                     if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
                         return
                     }
