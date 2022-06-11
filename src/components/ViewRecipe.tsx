@@ -7,10 +7,10 @@ import { LoadingScreen } from '../utils'
 
 const ViewRecipe = (): JSX.Element => {
     const [content, setContent] = useState<JSX.Element>(<LoadingScreen />);
-    let params = useParams();
+    let { recipeId } = useParams();
     
     useEffect(() => {
-        getRecipe(params.recipeId || '')
+        getRecipe(recipeId || '')
         .then(recipe =>  {
             let stepsArray = recipe.cookingSteps.map((value) => {
                 return (
@@ -58,7 +58,7 @@ const ViewRecipe = (): JSX.Element => {
                                 Tags
                             </h2>
                             <div>
-                                {recipe.tags.join(', ')}
+                                {recipe.tags.map((tag) => '#' + tag).join(', ')}
                             </div>
                         </div> : null)}
                     </div>

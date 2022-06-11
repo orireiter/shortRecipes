@@ -98,12 +98,20 @@ export const isValidRecipe = (recipe: recipe) => {
 // logic
 
 
-export const submitRecipe = (recipe: recipe) => {
+export const submitRecipe = async (recipe: recipe) => {
     let currentUser = getUser();
     
     if (!currentUser) {
         throw new Error('somehow no user');
     }
+
+    recipe.tags = recipe.tags || [];
+    const tagsPromises = recipe.tags.map((tag) => tag.toLowerCase());
+    recipe.tags = await Promise.all(tagsPromises);
+
+    const extraTagsPromises = recipe.recipeName.split(' ').map((word) => word.toLowerCase());
+    const extraTags = await Promise.all(extraTagsPromises);
+    recipe.tags = recipe.tags.concat(extraTags);    
 
     const detailedRecipe: detailedRecipe = {...recipe, 
         creationDate: new Date(),
@@ -134,13 +142,13 @@ export const getRecipe = async (recipeId: string) => {
     return recipeData
 }
 
-export async function *getAllPublicRecipesPaginated() {
+export async function *getAllPublicRecipesPaginated(queryString: string|null=null) {
     const genie = hslShadeGenerator('hsl(191deg 60% 38%)');
     let lastVisible = null; 
     let recipeArray: Array<JSX.Element> = [];
     
     while (true) {
-        let querySnapshot = await getPublicRecipes(25, lastVisible)
+        let querySnapshot = await getPublicRecipes(25, lastVisible, queryString);
         if (querySnapshot.empty) {
             return recipeArray;
         }
