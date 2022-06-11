@@ -12,15 +12,27 @@ export default function Header() {
     const auth = useAppSelector(selectAuth);
 
     return (
-        <div id='navbar' className='notDraggable'>
-            {(auth.isAuthenticated) ? 
-            <div id='navbarToggle'>
-                <span className='material-icons clickable' onClick={() => { dispatch(openCloseNavbar()) }}>
-                    menu
-                </span>
-            </div> : null}
-            <div id='currentPageTitle'>
-                <h1>{pageTitle}</h1>
+        <div id='navbarContainer' className='notDraggable'>
+            <div id='navbar'>
+                {(auth.isAuthenticated) ? 
+                <div id='navbarToggle'>
+                    <span className='material-icons clickable' onClick={() => { dispatch(openCloseNavbar()) }}>
+                        menu
+                    </span>
+                </div> : null}
+                <div id='currentPageTitle'>
+                    <h1>{pageTitle}</h1>
+                </div>
+            </div>
+            <div id='navbarSearch'>
+                <div id='searchContainer'>
+                    <div id='searchBox'>
+                        <span className='material-icons clickable' style={{color: '#757575'}}>
+                            search
+                        </span>
+                        <input type="text" placeholder='search'/>
+                    </div>
+                </div>
             </div>
         </div>
     );
