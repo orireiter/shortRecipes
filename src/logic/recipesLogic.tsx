@@ -11,7 +11,7 @@ import { saveRecipe, getRecipe as fetchRecipe, getPublicRecipes } from '../data/
 const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string, recipeId: string}): JSX.Element => {
     return (
         <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
-            <div className='recipeName'>
+            <div className='recipeName' dir='auto'>
                 <Link to={`${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
             </div>
             <div className='recipeThumbnail'>
