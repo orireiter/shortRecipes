@@ -15,7 +15,6 @@ import { selectAuth } from './slices/authSlice';
 import { selectGeneralSettings } from './slices/generalSettingsSlice'
 import { checkUserConnected } from './logic/authLogic';
 
-import { Counter } from './features/counter/Counter';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home';
