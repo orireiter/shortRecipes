@@ -1,21 +1,31 @@
+import { useState } from 'react';
 import { User } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 
 import { getUser } from './authLogic';
 import { hslShadeGenerator } from '../utils';
 import { saveRecipe, getRecipe as fetchRecipe, getPublicRecipes } from '../data/recipesDal';
+import { uploadFile, getFileUrl } from '../data/storageDal';
+
 
 // JSX
 
 
-const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string, recipeId: string}): JSX.Element => {
+const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string, recipeId: string, creatorId: string}): JSX.Element => {
+    const [thumbnailUrl, setThumbnailUrl] = useState<string|undefined>(undefined);
+    getFileUrl(`/thumbnails/public/${props.creatorId}`, props.recipeId, 'png')
+    .then((fileUrl) => {
+        setThumbnailUrl(fileUrl);
+    })
+
+
     return (
         <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
             <div className='recipeName' dir='auto'>
                 <Link to={`${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
             </div>
             <div className='recipeThumbnail'>
-                <img src='https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max' alt='pizza'/>
+                <img src={thumbnailUrl} alt={props.recipeName}/>
             </div>
             <div className='recipeAuthor'>
                 <p>By: {props.recipeCreator}</p>
@@ -98,13 +108,7 @@ export const isValidRecipe = (recipe: recipe) => {
 // logic
 
 
-export const submitRecipe = async (recipe: recipe) => {
-    let currentUser = getUser();
-    
-    if (!currentUser) {
-        throw new Error('somehow no user');
-    }
-
+const createDetailedRecipe = async (recipe: recipe, currentUser: User) => {
     recipe.tags = recipe.tags || [];
     const tagsPromises = recipe.tags.map((tag) => tag.toLowerCase());
     recipe.tags = await Promise.all(tagsPromises);
@@ -120,8 +124,26 @@ export const submitRecipe = async (recipe: recipe) => {
         isPublic: true
     }
 
-    return saveRecipe(detailedRecipe);
+    return detailedRecipe;
 }
+
+
+export const submitRecipe = async (recipe: recipe, file: File|null|undefined) => {
+    let currentUser = getUser();
+    
+    if (!currentUser) {
+        throw new Error('somehow no user');
+    }
+
+    const detailedRecipe = await createDetailedRecipe(recipe, currentUser);
+
+    const docData = await saveRecipe(detailedRecipe);
+    if (file) {
+        const pathToFile = `thumbnails/public/${currentUser.uid}`
+        uploadFile(pathToFile, docData.id, 'png', file);
+    }
+}
+
 
 export const getRecipe = async (recipeId: string) => {
     const snapshot = await fetchRecipe(recipeId);
@@ -142,6 +164,7 @@ export const getRecipe = async (recipeId: string) => {
     return recipeData
 }
 
+
 export async function *getAllPublicRecipesPaginated(queryString: string|null=null) {
     const genie = hslShadeGenerator('hsl(191deg 60% 38%)');
     let lastVisible = null; 
@@ -160,7 +183,7 @@ export async function *getAllPublicRecipesPaginated(queryString: string|null=nul
             };
 
             let recipeData = recipeDoc.data();
-            let recipeSummary = <RecipeSummary recipeName={recipeData.recipeName} recipeCreator={recipeData.userName} recipeLastUpdate={recipeData.creationDate.toDate()} recipeId={recipeDoc.id} key={recipeDoc.id} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>
+            let recipeSummary = <RecipeSummary recipeName={recipeData.recipeName} recipeCreator={recipeData.userName} recipeLastUpdate={recipeData.creationDate.toDate()} recipeId={recipeDoc.id} creatorId={recipeData.userId} key={recipeDoc.id} backgroundColor={genie.next().value.toHslString() || 'transparent'}/>
             recipeArray.push(recipeSummary);
             lastVisible = recipeDoc;
         });
