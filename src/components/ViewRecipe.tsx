@@ -8,6 +8,7 @@ import { LoadingScreen } from '../utils'
 const ViewRecipe = (): JSX.Element => {
     const [content, setContent] = useState<JSX.Element>(<LoadingScreen />);
     const [thumbnailUrl, setThumbnailUrl] = useState<string>();
+    const [recipe, setRecipe] = useState<recipe|null>(null);
     let { recipeId, creatorId } = useParams();
     
     const createRecipeHtml = (recipe: recipe) => {
@@ -69,19 +70,24 @@ const ViewRecipe = (): JSX.Element => {
     }
 
     useEffect(() => {
+        if (recipe) {
+            const recipeHtml = createRecipeHtml(recipe);
+            setContent(recipeHtml);
+        }            
+    }, [recipe, thumbnailUrl])
+
+
+    useEffect(() => {
         getRecipe(recipeId || '')
-        .then(recipe =>  {
+        .then(recipeToSet =>  {
+            setRecipe(recipeToSet);
+            
             if (creatorId && recipeId) {
                 getThumbnailUrl(creatorId, recipeId)
                 .then((thumbnailUrlToSet) => {
-                    console.log(thumbnailUrl);
                     setThumbnailUrl(thumbnailUrlToSet);
                 })
-                .catch((e) => console.error(e))
             }
-            
-            const recipeHtml = createRecipeHtml(recipe);
-            setContent(recipeHtml);
         });
     }, [])
     
