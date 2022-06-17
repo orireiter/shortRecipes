@@ -13,7 +13,7 @@ import { uploadFile, getFileUrl } from '../data/storageDal';
 
 const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipeLastUpdate: Date, backgroundColor: string, recipeId: string, creatorId: string}): JSX.Element => {
     const [thumbnailUrl, setThumbnailUrl] = useState<string|undefined>(undefined);
-    getFileUrl(`/thumbnails/public/${props.creatorId}`, props.recipeId, 'png')
+    getThumbnailUrl(props.creatorId, props.recipeId)
     .then((fileUrl) => {
         setThumbnailUrl(fileUrl);
     })
@@ -22,7 +22,7 @@ const RecipeSummary = (props: {recipeName: string, recipeCreator: string, recipe
     return (
         <div className='recipeSummaryContainer' style={{backgroundColor: props.backgroundColor}}>
             <div className='recipeName' dir='auto'>
-                <Link to={`${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
+                <Link to={`/users/${props.creatorId}/recipes/${props.recipeId}`} className='clickable notDraggable'>{props.recipeName}</Link>
             </div>
             <div className='recipeThumbnail'>
                 <img src={thumbnailUrl} alt={props.recipeName}/>
@@ -125,6 +125,11 @@ const createDetailedRecipe = async (recipe: recipe, currentUser: User) => {
     }
 
     return detailedRecipe;
+}
+
+
+export const getThumbnailUrl = (creatorId: string, recipeId: string) => {
+    return getFileUrl(`/thumbnails/public/${creatorId}`, recipeId, 'png')
 }
 
 
