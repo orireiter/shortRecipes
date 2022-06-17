@@ -9,7 +9,7 @@ import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState } from '
 
 
 const ingredientTemplate: ingredient = {name: '', amount: 0, amountType: ''};
-const cookingStepTemplate: cookingStep = {num: 1, content: ''};
+const cookingStepTemplate: cookingStep = {num: 1, content: '', title: ''};
 
 
 const IngredientsForm = (props: {
@@ -184,15 +184,65 @@ const TagForm = (props: { tagArray: string[],
 }
 
 
+const ImageDrop = (props: { fileToUpload: File|null|undefined, 
+    setFileToUpload: React.Dispatch<React.SetStateAction<File|null|undefined>>}
+    ): JSX.Element|null => {
+    const fileInputDiv = useRef<HTMLInputElement>(null);
+    
+    function isFileValid(fileToCheck: File|null|undefined) {
+        if (!fileToCheck) {
+            return false;
+        }
+        if (!['image/png', 'image/jpeg'].includes(fileToCheck.type)) {
+            return false;
+        }
+        return true;
+    }
+
+    function setFileIfValid(fileToSet: File|null|undefined) {
+        if (isFileValid(fileToSet)) {
+            props.setFileToUpload(fileToSet);
+        }
+    }
+
+    const imageHtml = (props.fileToUpload) ? (
+        <div id="addRecipeImagePreview">
+            <span className="material-icons clickable" id='clearRecipeImage'
+                onClick={() => props.setFileToUpload(null)}>
+                close
+            </span>
+            <img src={URL.createObjectURL(props.fileToUpload)} alt="recipe preview" height={'100%'}></img>
+        </div>) 
+        : (
+        <div id='addRecipeImageContainer'>
+            <div id='addRecipeImageDrop' className='clickable notDraggable'
+                onDrop={(event) => {event.preventDefault();setFileIfValid(event.dataTransfer.files.item(0))}} 
+                onDragOver={(event) => {event.preventDefault();}}
+                onClick={() => {
+                    fileInputDiv.current?.click();
+                }}>
+                <p>Click or Drop an Image Here...</p>
+            </div>
+            <div id='classicFileSelect' style={{display: 'none'}}>
+                <input ref={fileInputDiv} id='uploadInputButton' accept="image/png, image/jpeg" type='file' 
+                        onChange={(event) => setFileIfValid(event.target.files?.item(0))}></input>
+            </div>
+        </div>);
+ 
+    return (imageHtml);
+    }
+
+
 
 const AddRecipe = (): JSX.Element => {
     const [dishName, setName] = useState<string>('');
     const [ingredientArray, setIngredients] = useState<Array<ingredient>>([ingredientTemplate]);
     const [cookingStepsArray, setCookingSteps] = useState<Array<cookingStep>>([cookingStepTemplate]);
     const [tagArray, setTagArray] = useState<Array<string>>([]);
-    const [isRecipeValid, setRecipeValid] = useState<boolean>(false)
+    const [isRecipeValid, setRecipeValid] = useState<boolean>(false);
+    const [fileToUpload, setFileToUpload] = useState<File|null>();
     let recipeReference = useRef<recipe>();
-
+    
 
 
     useEffect(() => {
@@ -215,10 +265,13 @@ const AddRecipe = (): JSX.Element => {
                 <h2>Add a New Recipe</h2>
             </div>
             <div id='recipeForm'>
-                <div id='addRecipeName'>
-                    <p>Dish Name:</p>
-                    <input type='text' value={dishName} placeholder='pizza'
-                        onChange={(event) => setName(event.target.value)}/>
+                <div id='addRecipeNameContainer'>
+                    <div id='addRecipeName'>
+                        <p>Dish Name:</p>
+                        <input type='text' value={dishName} placeholder='pizza'
+                            onChange={(event) => setName(event.target.value)}/>
+                    </div>
+                    <ImageDrop fileToUpload={fileToUpload} setFileToUpload={setFileToUpload}/>
                 </div>
                 <IngredientsForm ingredientArray={ingredientArray} setIngredients={setIngredients}/>
                 <CookingStepsForm cookingStepsArray={cookingStepsArray} setCookingSteps={setCookingSteps}/>
@@ -235,7 +288,7 @@ const AddRecipe = (): JSX.Element => {
                         return
                     }
 
-                    submitRecipe(recipeReference.current);
+                    submitRecipe(recipeReference.current, fileToUpload);
                     }}>Save Recipe</button>
             </div>
             </div>

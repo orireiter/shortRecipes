@@ -27,7 +27,7 @@ import { Redirect, LoadingScreen } from './utils';
 
 
 function App() {
-  document.title = config.general.title || 'Small Words';
+  document.title = config.general.title;
   const dispatch = useAppDispatch();
   const auth = useAppSelector(selectAuth);
   const generalSettings = useAppSelector(selectGeneralSettings);
@@ -52,7 +52,7 @@ function App() {
             <Route path='/*' element={<Redirect  redirectTo='/recipes'/>} />
             <Route path='/recipes' element={<Home />} />
             <Route path='/recipes/add' element={<AddRecipe />} />
-            <Route path='/recipes/:recipeId' element={<ViewRecipe />} />
+            <Route path='users/:creatorId/recipes/:recipeId' element={<ViewRecipe />} />
           </Routes>
         </div>
   }
