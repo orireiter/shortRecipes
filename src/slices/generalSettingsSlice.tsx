@@ -5,12 +5,14 @@ import { RootState } from '../app/store';
 export interface generalSettingsState {
   isNavbarOpen: Boolean;
   isLoading: Boolean;
+  isMobile: Boolean
 }
 
 
 const initialState: generalSettingsState = {
   isNavbarOpen: false,
   isLoading: false,
+  isMobile: false,
 };
 
 export const generalSettingsSlice = createSlice({
@@ -32,6 +34,9 @@ export const generalSettingsSlice = createSlice({
     },
     openLoading: (state) => {
       state.isLoading = true;
+    },
+    changeIsMobileState: (state) => {
+      state.isMobile = !state.isMobile;
     }
   }
 });
@@ -41,7 +46,8 @@ export const {
   closeNavbar, 
   openCloseLoading, 
   closeLoading,
-  openLoading } = generalSettingsSlice.actions;
+  openLoading,
+  changeIsMobileState } = generalSettingsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

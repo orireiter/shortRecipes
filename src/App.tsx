@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -11,9 +11,10 @@ import './App.css';
 
 import { useAppSelector } from './app/hooks';
 import { useAppDispatch } from './app/hooks';
-import { selectAuth } from './slices/authSlice';
+import { selectAuth, authState } from './slices/authSlice';
 import { selectGeneralSettings } from './slices/generalSettingsSlice'
 import { checkUserConnected } from './logic/authLogic';
+import { changeIsMobileStateIfNeeded } from './logic/settingsLogic';
 
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -25,28 +26,23 @@ import ViewRecipe from './components/ViewRecipe';
 import { Redirect, LoadingScreen } from './utils';
 
 
-function App() {
-  document.title = config.general.title;
-  const dispatch = useAppDispatch();
-  const auth = useAppSelector(selectAuth);
-  const generalSettings = useAppSelector(selectGeneralSettings);
-
-  checkUserConnected(dispatch);
-
-  let appContent: JSX.Element | null;
+const getAppContent = (auth: authState) => {
   if (auth.isAuthenticated === null) {
-    appContent = null;
-  } else if (!auth.isAuthenticated) {
-    appContent =
+    return null;
+  } 
+  
+  if (!auth.isAuthenticated) {
+    return (
         <Routes>
           <Route path='/*' element={<Redirect  redirectTo='/login'/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
-  } else {
-    appContent =
+    );
+  }
+
+  return (
         <div className="App">
-          {/* <Counter /> */}
           <Routes>
             <Route path='/*' element={<Redirect  redirectTo='/recipes'/>} />
             <Route path='/recipes' element={<Home />} />
@@ -54,7 +50,25 @@ function App() {
             <Route path='users/:creatorId/recipes/:recipeId' element={<ViewRecipe />} />
           </Routes>
         </div>
-  }
+  );
+}
+
+function App() {
+  document.title = config.general.title;
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector(selectAuth);
+  const generalSettings = useAppSelector(selectGeneralSettings);
+  const [appContent, setAppContent] = useState<JSX.Element|null>(null);
+
+  checkUserConnected(dispatch);
+
+  useEffect(() => {
+    const appContentToSet = getAppContent(auth);
+    setAppContent(appContentToSet);
+  }, [auth])
+  useEffect(() => {
+    changeIsMobileStateIfNeeded(dispatch, generalSettings);
+  }, [])
 
   return (
     <Router>
