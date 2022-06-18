@@ -68,7 +68,7 @@ function App() {
   }, [auth])
   useEffect(() => {
     changeIsMobileStateIfNeeded(dispatch, generalSettings);
-  }, [])
+  }, [navigator])
 
   return (
     <Router>

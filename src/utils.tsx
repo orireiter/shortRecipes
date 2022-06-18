@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// ------ TYPES
+
+export type stringToStringMapType = {
+  [key: string]: string
+}
+
 
 // ------ GENERAL
 

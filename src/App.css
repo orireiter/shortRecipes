@@ -177,7 +177,7 @@ p {
     height: 10%;
 }
 
-#navbar {
+.navbar {
     background-color: #16697A;
     /* box-shadow: 0 0.2em 0.6em 0.2em #0000004f; */
 
@@ -189,30 +189,58 @@ p {
     z-index: 3;
 }
 
-#currentPageTitle {
+.navbarMobile {
+    width: 67%;
+}
+
+.currentPageTitle {
     width: 50%;
 }
 
-#navbar h1 {
+
+.currentPageTitleMobile {
+    width: 66%;
+}
+
+
+.navbar h1 {
     font-size: 3em;
     padding-left: 2%;
     color: #ede7e3;
 }
 
-#navbarToggle span {
+.navbarToggle span {
     color: #ede7e3;
     font-size: 2.5em;
     border-radius: 0.2em;
 }
 
-#navbarToggle {
+.navbarToggle {
     padding-top: 0.4%;
     padding-left: 1%;    
 }
 
-#navbarSearch {
+.navbarToggleMobile span {
+    font-size: 3em;
+}
+
+
+.navbarSearch {
     width: 30%;
     display: flex;
+}
+
+.navbarSearchMobile {
+    width: 33%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navbarSearchMobile span {
+    font-size: 3em;
+    color: #ede7e3;
+    padding-right: 1%;
+    padding-top: 0.4%;
 }
 
 #searchContainer {
