@@ -14,6 +14,7 @@ import { selectGeneralSettings, generalSettingsState } from '../slices/generalSe
 const NavBarSearch = (props: {auth: authState, generalSettings: generalSettingsState}) => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
+    const [isShowSearchBar, setIsShowSearchBar] = useState(false);
 
     const goToSearch = () => {
         let goTo = 'recipes';
@@ -36,9 +37,19 @@ const NavBarSearch = (props: {auth: authState, generalSettings: generalSettingsS
         }
 
         content = (
-        <span className='material-icons clickable' onClick={() => { }}>
-            search
-        </span>);
+                (isShowSearchBar) ? 
+                    <div>
+                        <input type='text' onBlur={() => {setIsShowSearchBar(!isShowSearchBar)}}
+                        autoFocus={true} onSubmit={() => console.log('coo')}/>
+                    </div> : (
+                            <span className='material-icons clickable' 
+                            onClick={() => {
+                                setIsShowSearchBar(!isShowSearchBar);
+                            }}>
+                    search
+                </span>
+                        )
+        );
     } else {
         content = (
         <div id='searchContainer'>
