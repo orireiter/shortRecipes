@@ -38,16 +38,32 @@ const NavBarSearch = (props: {auth: authState, generalSettings: generalSettingsS
 
         content = (
                 (isShowSearchBar) ? 
-                    <div>
-                        <input type='text' onBlur={() => {setIsShowSearchBar(!isShowSearchBar)}}
-                        autoFocus={true} onSubmit={() => console.log('coo')}/>
-                    </div> : (
+                        <div id='searchContainer'>
+                            <div id='mobileSearchBox'>
+                                <input type="text" placeholder='search' value={searchTerm} 
+                                    onChange={(event) => setSearchTerm(event.target.value)}
+                                    onBlur={() => {setIsShowSearchBar(!isShowSearchBar)}}
+                                    autoFocus={true}
+                                    onKeyPress={(event) => {
+                                    if (event.key === 'Enter') {
+                                        goToSearch();
+                                        setIsShowSearchBar(!isShowSearchBar)
+                                    }}}/>
+                                <span className='material-icons clickable' style={{color: '#757575'}} onClick={() => {
+                                        setSearchTerm('');
+                                        setIsShowSearchBar(!isShowSearchBar);
+                                    }}>
+                                    close
+                                </span>
+                            </div>
+                        </div>
+                    : (
                             <span className='material-icons clickable' 
                             onClick={() => {
                                 setIsShowSearchBar(!isShowSearchBar);
                             }}>
-                    search
-                </span>
+                                search
+                            </span>
                         )
         );
     } else {
