@@ -170,11 +170,16 @@ p {
 
 /* || header */
 
-#navbarContainer {
+.navbarContainer {
     box-shadow: 0 0.2em 0.6em 0.2em #0000004f; 
     display: flex; 
     justify-content: space-between;
     height: 10%;
+}
+
+.navbarContainerMobile {
+    position: relative;
+    z-index: 3;
 }
 
 .navbar {
@@ -323,6 +328,11 @@ p {
     color: #ede7e3;
 }
 
+.navOpenMobile {
+    width: 100%;
+    color: #ede7e3;
+}
+
 #navigationSettings {
     position: absolute;
     bottom: 0;
@@ -334,7 +344,7 @@ p {
     padding-top: 5%;
 }
 
-#navLogout {
+.navLogout {
     display: flex;
     align-items: center;
     width: 45%;
@@ -343,7 +353,16 @@ p {
     border-radius: 0.5em;;
 }
 
-#navSettingsButton {
+.navLogoutMobile {
+    font-size: 2.6em;
+    margin-left: 4%;
+}
+
+.navLogoutMobile span {
+    font-size: 1em;
+}
+
+.navSettingsButton {
     margin-right: 5%;
     border-radius: 1em;
     padding: 1%;
@@ -351,10 +370,14 @@ p {
     border-radius: 100%;
 }
 
-#navSettingsButton, #navLogout, #logoutPopupButtons button, #navbarToggle span {
+.navSettingsButtonMobile {
+    font-size: 2.8em;
+}
+
+.navSettingsButton, .navLogout, #logoutPopupButtons button, #navbarToggle span {
     transition: ease-in-out 0.2s;
 }
-#navSettingsButton:hover, #navLogout:hover, #navbarToggle span:hover {
+.navSettingsButton:hover, .navLogout:hover, #navbarToggle span:hover {
     background-color: #114f5c;
 }
 
@@ -401,12 +424,20 @@ p {
     text-decoration: none;
 }
 
+.navigationLinkMobile {
+    font-size: 2em;
+}
+
 .navigationLink:hover {
     background-color: #114f5c;
 }
 
 .navigationLink span {
     margin-right: 5%;
+}
+
+.navigationLinkMobile span{
+    font-size: 1.8em;
 }
 
 /* || credits */

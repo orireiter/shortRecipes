@@ -4,16 +4,27 @@ import Popup from 'reactjs-popup';
 
 import { useAppSelector } from '../app/hooks';
 import { useAppDispatch } from '../app/hooks';
-import { selectGeneralSettings, closeNavbar } from '../slices/generalSettingsSlice';
+import { selectGeneralSettings, generalSettingsState, closeNavbar } from '../slices/generalSettingsSlice';
 import { logOut } from '../logic/authLogic';
+import { stringToStringMapType } from '../utils';
 
 
-function SignOut() {
+function SignOut(props: {generalSettings: generalSettingsState}) {
     const dispatch = useAppDispatch();
+
+    let classNames: stringToStringMapType = { 
+        navLogout: 'navLogout'
+    }
+
+    if (props.generalSettings.isMobile) {
+        for (let o in classNames) {    
+            classNames[o] += ` ${classNames[o]}Mobile`
+        }
+    }
 
     return (
     <Popup modal nested trigger={
-        <div id='navLogout' className='clickable notDraggable'>
+        <div className={`${classNames.navLogout} clickable notDraggable`}>
             <span className='material-icons'>
                 logout
             </span>
@@ -44,17 +55,30 @@ export default function NavigationBar() {
     const generalSettings = useAppSelector(selectGeneralSettings);
     const dispatch = useAppDispatch();
 
+    let classNames: stringToStringMapType = { 
+        navOpen: 'navOpen',
+        navClosed: 'navClosed',
+        navigationLink: 'navigationLink',
+        navSettingsButton: 'navSettingsButton'
+    }
+
+    if (generalSettings.isMobile) {
+        for (let o in classNames) {    
+            classNames[o] += ` ${classNames[o]}Mobile`
+        }
+    }
+    
     return (
-        <div id='navigationBar' className={(generalSettings.isNavbarOpen) ? 'navOpen' : 'navClosed'}>
+        <div id='navigationBar' className={(generalSettings.isNavbarOpen) ? classNames.navOpen : classNames.navClosed}>
             <div id='navigationLinks'>
-                <Link to='/recipes' className='navigationLink clickable notDraggable'
+                <Link to='/recipes' className={`${classNames.navigationLink} clickable notDraggable`}
                         onClick={() => dispatch(closeNavbar())}>
                     <span className="material-icons">
                         kitchen
                     </span>
                     <h2>All Recipes</h2>
                 </Link>
-                <Link to='/recipes/add' className='navigationLink clickable notDraggable'
+                <Link to='/recipes/add' className={`${classNames.navigationLink} clickable notDraggable`}
                     onClick={() => dispatch(closeNavbar())}>
                     <span className="material-icons">
                         add
@@ -63,8 +87,8 @@ export default function NavigationBar() {
                 </Link>
             </div>
             <div id='navigationSettings'>
-                < SignOut/>
-                <span id='navSettingsButton' className='material-icons clickable notDraggable'>
+                < SignOut generalSettings={generalSettings}/>
+                <span className={`${classNames.navSettingsButton} material-icons clickable notDraggable`}>
                     settings
                 </span>
             </div>

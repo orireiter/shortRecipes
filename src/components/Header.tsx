@@ -132,8 +132,18 @@ export default function Header() {
     const auth = useAppSelector(selectAuth);
     const generalSettings = useAppSelector(selectGeneralSettings);
 
+    let classNames: stringToStringMapType = { 
+        navbarContainer: 'navbarContainer',
+    }
+
+    if (generalSettings.isMobile) {
+        for (let o in classNames) {    
+            classNames[o] += ` ${classNames[o]}Mobile`
+        }
+    }
+    
     return (
-        <div id='navbarContainer' className='notDraggable'>
+        <div className={`notDraggable ${classNames.navbarContainer}`}>
             <NavBar auth={auth} generalSettings={generalSettings}/>
             <NavBarSearch auth={auth} generalSettings={generalSettings}/>
         </div>
