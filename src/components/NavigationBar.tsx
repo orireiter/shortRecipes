@@ -4,12 +4,11 @@ import Popup from 'reactjs-popup';
 
 import { useAppSelector } from '../app/hooks';
 import { useAppDispatch } from '../app/hooks';
-import { selectGeneralSettings, generalSettingsState, closeNavbar } from '../slices/generalSettingsSlice';
+import { selectGeneralSettings, closeNavbar } from '../slices/generalSettingsSlice';
 import { logOut } from '../logic/authLogic';
-import { stringToStringMapType } from '../utils';
 
 
-function SignOut(props: {generalSettings: generalSettingsState}) {
+function SignOut() {
     const dispatch = useAppDispatch();
 
     return (
@@ -48,14 +47,14 @@ export default function NavigationBar() {
     return (
         <div id='navigationBar' className={(generalSettings.isNavbarOpen) ? 'navOpen' : 'navClosed'}>
             <div id='navigationLinks'>
-                <Link to='/recipes' className={'navigationLink clickable notDraggable'}
+                <Link to='/recipes' className='navigationLink clickable notDraggable'
                         onClick={() => dispatch(closeNavbar())}>
                     <span className="material-icons">
                         kitchen
                     </span>
                     <h2>All Recipes</h2>
                 </Link>
-                <Link to='/recipes/add' className={'navigationLink clickable notDraggable'}
+                <Link to='/recipes/add' className='navigationLink clickable notDraggable'
                     onClick={() => dispatch(closeNavbar())}>
                     <span className="material-icons">
                         add
@@ -64,7 +63,7 @@ export default function NavigationBar() {
                 </Link>
             </div>
             <div id='navigationSettings'>
-                < SignOut generalSettings={generalSettings}/>
+                < SignOut/>
                 <span id='navSettingsButton' className='material-icons clickable notDraggable'>
                     settings
                 </span>

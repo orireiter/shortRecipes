@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import config from '../config.json'
 import { useAppSelector } from '../app/hooks';
 import { useAppDispatch } from '../app/hooks';
-import { stringToStringMapType } from '../utils';
 import { openCloseNavbar } from '../slices/generalSettingsSlice';
 import { selectAuth, authState } from '../slices/authSlice';
 import { selectGeneralSettings, generalSettingsState } from '../slices/generalSettingsSlice';
