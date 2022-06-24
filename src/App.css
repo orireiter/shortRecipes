@@ -542,6 +542,10 @@ p {
     /* margin: auto 0.5%; */
 }
 
+.mobile #allRecipeGrid {
+    grid-template-columns: auto;
+}
+
 .recipeSummaryContainer {
     padding: 2%;
     box-shadow: inset 0.21em 0.2em 0.2em 0.005em #0000004f;
@@ -571,6 +575,7 @@ p {
 
 .recipeThumbnail img {
     max-width: 100%;
+    width: 100%;
     height: auto;
     margin-bottom: -2%;
 }
