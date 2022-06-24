@@ -480,6 +480,11 @@ p {
     border-radius: 0.8em;
 }
 
+.mobile .authContainer {
+    width: unset;
+    font-size: 1.5em;
+}
+
 .authForm div {
     padding-bottom: 5%;
 }
@@ -501,6 +506,10 @@ p {
     border-radius: 1em;
 }
 
+.mobile .authForm input {
+    padding-left: 4%;
+}
+
 .authSubmit {
     padding-top: 5%;
     padding-bottom: 5%;
@@ -518,6 +527,10 @@ p {
     padding: 2%;
 
     transition: ease-in-out 0.2s;
+}
+
+.mobile .authSubmit button {
+    font-size: 1.5em;
 }
 
 .buttonEnabled {
