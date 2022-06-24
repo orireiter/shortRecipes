@@ -50,7 +50,7 @@ p {
 
 /* https://coolors.co/16697a-489fb5-82c0cc-ede7e3-ffa62b */
 
-#wholeApp {
+.wholeApp {
     margin: 0;
     height: 100%;
     width: 100%;
@@ -170,19 +170,19 @@ p {
 
 /* || header */
 
-.navbarContainer {
+#navbarContainer {
     box-shadow: 0 0.2em 0.6em 0.2em #0000004f; 
     display: flex; 
     justify-content: space-between;
     height: 10%;
 }
 
-.navbarContainerMobile {
+.mobile #navbarContainer {
     position: relative;
     z-index: 3;
 }
 
-.navbar {
+#navbar {
     background-color: #16697A;
     /* box-shadow: 0 0.2em 0.6em 0.2em #0000004f; */
 
@@ -194,54 +194,54 @@ p {
     z-index: 3;
 }
 
-.navbarMobile {
+.mobile #navbar {
     width: 67%;
 }
 
-.currentPageTitle {
+#currentPageTitle {
     width: 50%;
 }
 
 
-.currentPageTitleMobile {
+.mobile #currentPageTitle {
     width: 66%;
 }
 
 
-.navbar h1 {
+#navbar h1 {
     font-size: 3em;
     padding-left: 2%;
     color: #ede7e3;
 }
 
-.navbarToggle span {
+#navbarToggle span {
     color: #ede7e3;
     font-size: 2.5em;
     border-radius: 0.2em;
 }
 
-.navbarToggle {
+#navbarToggle {
     padding-top: 0.4%;
     padding-left: 1%;    
 }
 
-.navbarToggleMobile span {
+.mobile #navbarToggle span {
     font-size: 3em;
 }
 
 
-.navbarSearch {
+#navbarSearch {
     width: 30%;
     display: flex;
 }
 
-.navbarSearchMobile {
+.mobile #navbarSearch {
     width: 33%;
     align-items: center;
     justify-content: flex-end;
 }
 
-.navbarSearchMobile span {
+.mobile #navbarSearch span {
     font-size: 3em;
     color: #ede7e3;
     padding-right: 1%;
@@ -328,7 +328,7 @@ p {
     color: #ede7e3;
 }
 
-.navOpenMobile {
+.mobile .navOpen {
     width: 100%;
     color: #ede7e3;
 }
@@ -344,7 +344,7 @@ p {
     padding-top: 5%;
 }
 
-.navLogout {
+#navLogout {
     display: flex;
     align-items: center;
     width: 45%;
@@ -353,16 +353,16 @@ p {
     border-radius: 0.5em;;
 }
 
-.navLogoutMobile {
+.mobile #navLogout {
     font-size: 2.6em;
     margin-left: 4%;
 }
 
-.navLogoutMobile span {
+.mobile #navLogout span {
     font-size: 1em;
 }
 
-.navSettingsButton {
+#navSettingsButton {
     margin-right: 5%;
     border-radius: 1em;
     padding: 1%;
@@ -370,7 +370,7 @@ p {
     border-radius: 100%;
 }
 
-.navSettingsButtonMobile {
+.mobile #navSettingsButton {
     font-size: 2.8em;
 }
 
@@ -424,7 +424,7 @@ p {
     text-decoration: none;
 }
 
-.navigationLinkMobile {
+.mobile .navigationLink {
     font-size: 2em;
 }
 
@@ -436,7 +436,7 @@ p {
     margin-right: 5%;
 }
 
-.navigationLinkMobile span{
+.mobile .navigationLink span{
     font-size: 1.8em;
 }
 

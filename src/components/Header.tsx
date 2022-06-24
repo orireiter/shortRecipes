@@ -24,18 +24,9 @@ const NavBarSearch = (props: {auth: authState, generalSettings: generalSettingsS
         navigate(goTo, {replace: true});
     }
 
-
-    let classNames: stringToStringMapType = { 
-        navbarSearch: 'navbarSearch'
-    }
-
     let content = null
     if (!props.auth.isAuthenticated) {
     } else if (props.generalSettings.isMobile) {
-        for (let o in classNames) {    
-            classNames[o] += ` ${classNames[o]}Mobile`
-        }
-
         content = (
                 (isShowSearchBar) ? 
                         <div id='searchContainer'>
@@ -88,7 +79,7 @@ const NavBarSearch = (props: {auth: authState, generalSettings: generalSettingsS
         </div>);
     }
     return (
-        <div className={classNames.navbarSearch}>
+        <div id='navbarSearch'>
             {content}
         </div>
     );
@@ -99,28 +90,15 @@ const NavBar = (props: {auth: authState, generalSettings: generalSettingsState})
     const dispatch = useAppDispatch();
     let pageTitle = config.general.title || 'Short Recipes';
 
-    let classNames: stringToStringMapType = { 
-        navbar: 'navbar',
-        currentPageTitle: 'currentPageTitle',
-        navbarToggle: 'navbarToggle'
-    }
-
-    if (props.generalSettings.isMobile) {
-        for (let o in classNames) {    
-            classNames[o] += ` ${classNames[o]}Mobile`
-        }
-    }
-    
-
     return (
-        <div className={classNames.navbar}>
+        <div id='navbar'>
             {(props.auth.isAuthenticated) ? 
-            <div className={classNames.navbarToggle}>
+            <div id='navbarToggle'>
                 <span className='material-icons clickable' onClick={() => { dispatch(openCloseNavbar()) }}>
                     menu
                 </span>
             </div> : null}
-            <div className={classNames.currentPageTitle}>
+            <div id='currentPageTitle'>
                 <h1>{pageTitle}</h1>
             </div>
         </div>
@@ -131,19 +109,9 @@ const NavBar = (props: {auth: authState, generalSettings: generalSettingsState})
 export default function Header() {
     const auth = useAppSelector(selectAuth);
     const generalSettings = useAppSelector(selectGeneralSettings);
-
-    let classNames: stringToStringMapType = { 
-        navbarContainer: 'navbarContainer',
-    }
-
-    if (generalSettings.isMobile) {
-        for (let o in classNames) {    
-            classNames[o] += ` ${classNames[o]}Mobile`
-        }
-    }
     
     return (
-        <div className={`notDraggable ${classNames.navbarContainer}`}>
+        <div id='navbarContainer' className='notDraggable'>
             <NavBar auth={auth} generalSettings={generalSettings}/>
             <NavBarSearch auth={auth} generalSettings={generalSettings}/>
         </div>

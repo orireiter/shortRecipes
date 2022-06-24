@@ -70,9 +70,15 @@ function App() {
     changeIsMobileStateIfNeeded(dispatch, generalSettings);
   }, [navigator])
 
+  let wholeAppClassName = 'wholeApp'
+
+  if (generalSettings.isMobile) {
+    wholeAppClassName += ' mobile'
+  }
+
   return (
     <Router>
-      <div id='wholeApp'>
+      <div className={wholeAppClassName}>
         <Header />
         <div id='mainPage'>
             <NavigationBar />
