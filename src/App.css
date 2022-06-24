@@ -175,9 +175,6 @@ p {
     display: flex; 
     justify-content: space-between;
     height: 10%;
-}
-
-.mobile #navbarContainer {
     position: relative;
     z-index: 3;
 }
