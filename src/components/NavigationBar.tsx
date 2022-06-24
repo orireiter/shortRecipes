@@ -43,7 +43,7 @@ function SignOut() {
 export default function NavigationBar() {
     const generalSettings = useAppSelector(selectGeneralSettings);
     const dispatch = useAppDispatch();
-
+    
     return (
         <div id='navigationBar' className={(generalSettings.isNavbarOpen) ? 'navOpen' : 'navClosed'}>
             <div id='navigationLinks'>

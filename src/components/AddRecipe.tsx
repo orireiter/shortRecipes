@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Ref } from 'react';
 
 // first importing types
 import { ingredient, cookingStep, recipe, isValidRecipe } from '../logic/recipesLogic';
 
 // then functions
+import { useAppSelector } from '../app/hooks';
 import { submitRecipe } from '../logic/recipesLogic';
+import { selectGeneralSettings } from '../slices/generalSettingsSlice';
 import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState } from '../utils';
 
 
@@ -21,7 +23,7 @@ const IngredientsForm = (props: {
 
     const suppliedIngredients: Array<JSX.Element> = props.ingredientArray.map((ingredient, index) => {
         return (
-            <div key={index} style={{display: 'flex'}}>
+            <div className='ingredientContainer' key={index}>
                 <div>
                     <p>{index + 1}.</p>
                 </div>
@@ -75,10 +77,12 @@ const IngredientsForm = (props: {
             <div>
                 {suppliedIngredients}
             </div>
-            <span className="material-icons clickable"
-                onClick={() => props.setIngredients([...props.ingredientArray, ingredientTemplate])}>
-                add_circle
-            </span>
+            <div id='addIngredientButtonContainer'>
+                <span className="material-icons clickable"
+                    onClick={() => props.setIngredients([...props.ingredientArray, ingredientTemplate])}>
+                    add_circle
+                </span>
+            </div>
         </div>  
     );
 }
@@ -93,7 +97,7 @@ const CookingStepsForm = (props: {
 
     const suppliedSteps: Array<JSX.Element> = props.cookingStepsArray.map((cookingStep, index) => {
         return (
-            <div key={index} style={{display: 'flex'}}>
+            <div className='ingredientContainer' key={index}>
                 <div>
                     <p>{index + 1}.</p>
                 </div>
@@ -128,10 +132,12 @@ const CookingStepsForm = (props: {
             <div>
                 {suppliedSteps}
             </div>
-            <span className="material-icons clickable"
-                onClick={() => props.setCookingSteps([...props.cookingStepsArray, {...cookingStepTemplate, num: stepsLength + 1}])}>
-                add_circle
-            </span>
+            <div id='addIngredientButtonContainer'>
+                <span className="material-icons clickable"
+                    onClick={() => props.setCookingSteps([...props.cookingStepsArray, {...cookingStepTemplate, num: stepsLength + 1}])}>
+                    add_circle
+                </span>
+            </div>
         </div>  
     );
 }
@@ -184,6 +190,36 @@ const TagForm = (props: { tagArray: string[],
 }
 
 
+const ImageDropZone = (props: {setFileIfValid: Function, fileInputDivRef: React.RefObject<HTMLInputElement>}) => {
+    const generalSettings = useAppSelector(selectGeneralSettings);
+    let content = null;
+    
+    if (generalSettings.isMobile) {
+        content = (
+        <span className="material-icons clickable notDraggable"
+            onClick={() => {
+                props.fileInputDivRef.current?.click();
+            }}>
+            photo_camera
+        </span>);
+    } else {
+        content = (
+        <div id='addRecipeImageDrop' className='clickable notDraggable'
+            onDrop={(event) => {
+                event.preventDefault();
+                props.setFileIfValid(event.dataTransfer.files.item(0))}} 
+            onDragOver={(event) => {event.preventDefault();}}
+            onClick={() => {
+                props.fileInputDivRef.current?.click();
+            }}>
+            <p>Click or Drop an Image Here...</p>
+        </div>);
+    }
+
+    return content
+}
+
+
 const ImageDrop = (props: { fileToUpload: File|null|undefined, 
     setFileToUpload: React.Dispatch<React.SetStateAction<File|null|undefined>>}
     ): JSX.Element|null => {
@@ -215,14 +251,7 @@ const ImageDrop = (props: { fileToUpload: File|null|undefined,
         </div>) 
         : (
         <div id='addRecipeImageContainer'>
-            <div id='addRecipeImageDrop' className='clickable notDraggable'
-                onDrop={(event) => {event.preventDefault();setFileIfValid(event.dataTransfer.files.item(0))}} 
-                onDragOver={(event) => {event.preventDefault();}}
-                onClick={() => {
-                    fileInputDiv.current?.click();
-                }}>
-                <p>Click or Drop an Image Here...</p>
-            </div>
+            <ImageDropZone setFileIfValid={setFileIfValid} fileInputDivRef={fileInputDiv}/>
             <div id='classicFileSelect' style={{display: 'none'}}>
                 <input ref={fileInputDiv} id='uploadInputButton' accept="image/png, image/jpeg" type='file' 
                         onChange={(event) => setFileIfValid(event.target.files?.item(0))}></input>
@@ -265,7 +294,7 @@ const AddRecipe = (): JSX.Element => {
                 <h2>Add a New Recipe</h2>
             </div>
             <div id='recipeForm'>
-                <div id='addRecipeNameContainer'>
+                <div id='addRecipeNameContainer' className={(fileToUpload) ? 'mobileImage' : ''}>
                     <div id='addRecipeName'>
                         <p>Dish Name:</p>
                         <input type='text' value={dishName} placeholder='pizza'

@@ -50,7 +50,7 @@ p {
 
 /* https://coolors.co/16697a-489fb5-82c0cc-ede7e3-ffa62b */
 
-#wholeApp {
+.wholeApp {
     margin: 0;
     height: 100%;
     width: 100%;
@@ -175,6 +175,8 @@ p {
     display: flex; 
     justify-content: space-between;
     height: 10%;
+    position: relative;
+    z-index: 3;
 }
 
 #navbar {
@@ -189,9 +191,19 @@ p {
     z-index: 3;
 }
 
+.mobile #navbar {
+    width: 67%;
+}
+
 #currentPageTitle {
     width: 50%;
 }
+
+
+.mobile #currentPageTitle {
+    width: 66%;
+}
+
 
 #navbar h1 {
     font-size: 3em;
@@ -210,9 +222,27 @@ p {
     padding-left: 1%;    
 }
 
+.mobile #navbarToggle span {
+    font-size: 3em;
+}
+
+
 #navbarSearch {
     width: 30%;
     display: flex;
+}
+
+.mobile #navbarSearch {
+    width: 33%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.mobile #navbarSearch span {
+    font-size: 3em;
+    color: #ede7e3;
+    padding-right: 1%;
+    padding-top: 0.4%;
 }
 
 #searchContainer {
@@ -242,6 +272,33 @@ p {
     height: 80%;
 }
 
+#mobileSearchBox {
+    width: 100%;
+    height: 10%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+}
+
+#mobileSearchBox input{
+    border: none;
+    font-size: 3em;
+    padding-left: 2%;
+    width: 83%;
+    font-family: 'Lato', sans-serif;
+}
+
+#mobileSearchBox span {
+    width: 15%;
+    font-size: 4em;
+    height: fit-content;
+    margin: auto 0;
+}
+
 /* || navigation bar */
 
 #navigationBar {
@@ -268,6 +325,11 @@ p {
     color: #ede7e3;
 }
 
+.mobile .navOpen {
+    width: 100%;
+    color: #ede7e3;
+}
+
 #navigationSettings {
     position: absolute;
     bottom: 0;
@@ -288,12 +350,26 @@ p {
     border-radius: 0.5em;;
 }
 
+.mobile #navLogout {
+    font-size: 2.6em;
+    margin-left: 4%;
+    width: unset;
+}
+
+.mobile #navLogout span {
+    font-size: 1em;
+}
+
 #navSettingsButton {
     margin-right: 5%;
     border-radius: 1em;
     padding: 1%;
     margin-left: 3%;
     border-radius: 100%;
+}
+
+.mobile #navSettingsButton {
+    font-size: 2.8em;
 }
 
 #navSettingsButton, #navLogout, #logoutPopupButtons button, #navbarToggle span {
@@ -346,12 +422,24 @@ p {
     text-decoration: none;
 }
 
+.mobile .navigationLink {
+    font-size: 2em;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+
 .navigationLink:hover {
     background-color: #114f5c;
 }
 
 .navigationLink span {
     margin-right: 5%;
+}
+
+.mobile .navigationLink span{
+    font-size: 1.5em;
+    margin: 0;
 }
 
 /* || credits */
@@ -389,6 +477,11 @@ p {
     border-radius: 0.8em;
 }
 
+.mobile .authContainer {
+    width: unset;
+    font-size: 1.5em;
+}
+
 .authForm div {
     padding-bottom: 5%;
 }
@@ -410,6 +503,10 @@ p {
     border-radius: 1em;
 }
 
+.mobile .authForm input {
+    padding-left: 4%;
+}
+
 .authSubmit {
     padding-top: 5%;
     padding-bottom: 5%;
@@ -427,6 +524,10 @@ p {
     padding: 2%;
 
     transition: ease-in-out 0.2s;
+}
+
+.mobile .authSubmit button {
+    font-size: 1.5em;
 }
 
 .buttonEnabled {
@@ -454,6 +555,10 @@ p {
     /* padding-top: 2%;
     padding-bottom: 2%; */
     /* margin: auto 0.5%; */
+}
+
+.mobile #allRecipeGrid {
+    grid-template-columns: auto;
 }
 
 .recipeSummaryContainer {
@@ -485,6 +590,7 @@ p {
 
 .recipeThumbnail img {
     max-width: 100%;
+    width: 100%;
     height: auto;
     margin-bottom: -2%;
 }
@@ -515,8 +621,21 @@ p {
     box-shadow: 0 10px 1.2em 0.0001em #00000080;
 }
 
+.mobile #recipeForm {
+    width: 89%;
+}
+
 #recipeForm p {
     font-size: 1em;
+}
+
+.mobile #recipeForm p {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mobile #recipeForm textarea {
+    width: 95%;
 }
 
 #recipeForm input {
@@ -542,8 +661,21 @@ p {
     width: 50%;
 }
 
+.mobile #addRecipeName {
+    width: 85%;
+    margin-bottom: 5%;
+}
+
+.mobile #addRecipeName p {
+    width: 40%;
+}
+
 #addRecipeName input {
     font-size: 1.5em;
+}
+
+.mobile #addRecipeName input {
+    width: 60%;
 }
 
 #addRecipeNameContainer {
@@ -551,10 +683,22 @@ p {
     justify-content: space-between;
 }
 
+.mobile #addRecipeNameContainer {
+    align-items: center;
+}
+
+.mobile .mobileImage {
+    flex-direction: column;
+}
+
 #addRecipeImageContainer {
     width: 50%;
     display: flex;
     justify-content: flex-end;
+}
+
+.mobile #addRecipeImageContainer {
+    width: unset;
 }
 
 #addRecipeImageDrop {
@@ -580,11 +724,40 @@ p {
     box-shadow: rgb(0 0 0 / 50%) 1px 2px 0.2em 0.0001em;
 }
 
+.mobile #addRecipeImagePreview {
+    display: flex;
+    position: static;
+    box-shadow: none;
+    width: 85%;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #clearRecipeImage {
     right: 0;
     position: absolute;
     font-size: xx-large;
     color: black;
+}
+
+.mobile #clearRecipeImage {
+    right: unset;
+    position: static;
+}
+
+
+.ingredientContainer {
+    display: flex;
+}
+
+.mobile .ingredientContainer {
+    flex-direction: column;
+}
+
+.mobile #addIngredientButtonContainer {
+    display: flex;
+    justify-content: flex-end;
 }
 
 #submitRecipe {
@@ -604,6 +777,10 @@ p {
     transition: ease-in-out 0.2s;
 }
 
+.mobile #submitRecipe button { 
+    width: 100%;
+}
+
 #submitRecipe button:hover { 
     background-color: #004654;
 }
@@ -621,6 +798,10 @@ p {
     /* box-shadow: 0 10px 1.2em 0.0001em #00000080; */
 }
 
+.mobile #recipeView {
+    width: 89%;
+}
+
 #recipeView h1 { 
     margin: 0 0 5% 0;
     text-decoration: underline;
@@ -628,4 +809,8 @@ p {
 
 #recipeViewSteps {
     margin-left: 3%;
+}
+
+.mobile #recipeViewThumbnailContainer {
+    width: 100%;
 }

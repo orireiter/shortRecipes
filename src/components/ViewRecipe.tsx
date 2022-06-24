@@ -31,7 +31,7 @@ const ViewRecipe = (): JSX.Element => {
                         {recipe.recipeName}
                     </h1>
                 </div>
-                <div>
+                <div id='recipeViewThumbnailContainer'>
                     <img src={thumbnailUrl} width='100%' alt={recipe.recipeName}></img>
                 </div>
                 <div>
