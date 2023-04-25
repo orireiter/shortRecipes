@@ -1,9 +1,9 @@
 import Popup from 'reactjs-popup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef, Ref } from 'react';
 
 // first importing types
-import { ingredient, cookingStep, recipe, isValidRecipe } from '../logic/recipesLogic';
+import { ingredient, cookingStep, recipe, isValidRecipe, getRecipe} from '../logic/recipesLogic';
 
 // then functions
 import { getUser } from '../logic/authLogic';
@@ -274,13 +274,33 @@ const AddRecipe = (): JSX.Element => {
     const [isRecipeValid, setRecipeValid] = useState<boolean>(false);
     const [fileToUpload, setFileToUpload] = useState<File|null>();
     const [invalidRecipeError, setInvalidRecipeError] = useState<string>('');
+    let { recipeId } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     let recipeReference = useRef<recipe>();
+    const user = getUser();
 
     useEffect(() => {
+        if (recipeId) {
+            getRecipe(recipeId)
+            .then((recipe) => {
+                if (recipe.userId !== user?.uid) {
+                    navigate('/recipes/add');
+                    return;
+                };
+
+                setName(recipe.recipeName);
+                setIngredients(recipe.ingredients);
+                setCookingSteps(recipe.cookingSteps)
+                setTagArray(recipe.tags || []);
+
+            })
+            .catch(() => {});
+        };
+
         return (() => {recipeReference.current = undefined});
     }, []);
+
     useEffect(() => {
         recipeReference.current = {
             recipeName: dishName,
@@ -299,8 +319,7 @@ const AddRecipe = (): JSX.Element => {
                 return;
             };
     
-            const user = getUser();
-            const recipeData = await submitRecipe(recipeReference.current, fileToUpload);
+            const recipeData = await submitRecipe(recipeReference.current, fileToUpload, recipeId);
             navigate(`/users/${user?.uid}/recipes/${recipeData.id}`);
         } catch {} finally {
             dispatch(closeLoading());

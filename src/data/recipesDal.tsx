@@ -1,4 +1,4 @@
-import { doc, collection, getDoc, getDocs, addDoc, query, where, orderBy, startAfter, limit, DocumentReference } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, updateDoc, query, where, orderBy, startAfter, limit, DocumentReference } from "firebase/firestore";
 
 import { firebaseFirestore } from '../thirdParty/fireBase';
 import { detailedRecipe } from '../logic/recipesLogic';
@@ -29,4 +29,9 @@ export const getPublicRecipes = (retrieveAtATime: number=25, startAfterThisDoc: 
 
 export const saveRecipe = (recipe: detailedRecipe) => {
     return addDoc(collectionRef, recipe);
+}
+
+export const updateRecipe = (recipeId: string, recipe: detailedRecipe) => {
+    const docRef = doc(firebaseFirestore, dbName, recipeId);
+    return updateDoc(docRef, recipe);
 }
