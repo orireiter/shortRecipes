@@ -31,7 +31,7 @@ const ViewRecipe = (): JSX.Element => {
         let viewingUser = getUser()
         if (viewingUser?.uid === recipe.userId && viewingUser?.uid) {
             editButton = (
-                <button onClick={() => {
+                <button className='clickable' onClick={() => {
                     navigate(`/recipes/${recipeId}/edit`);
                 }}>
                     Edit
