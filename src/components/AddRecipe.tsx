@@ -278,15 +278,22 @@ const AddRecipe = (): JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     let recipeReference = useRef<recipe>();
+    const user = getUser();
 
     useEffect(() => {
         if (recipeId) {
             getRecipe(recipeId)
             .then((recipe) => {
+                if (recipe.userId !== user?.uid) {
+                    navigate('/recipes/add');
+                    return;
+                };
+
                 setName(recipe.recipeName);
                 setIngredients(recipe.ingredients);
                 setCookingSteps(recipe.cookingSteps)
                 setTagArray(recipe.tags || []);
+
             })
             .catch(() => {});
         };
@@ -312,7 +319,6 @@ const AddRecipe = (): JSX.Element => {
                 return;
             };
     
-            const user = getUser();
             const recipeData = await submitRecipe(recipeReference.current, fileToUpload, recipeId);
             navigate(`/users/${user?.uid}/recipes/${recipeData.id}`);
         } catch {} finally {
