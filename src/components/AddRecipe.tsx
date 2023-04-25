@@ -1,13 +1,16 @@
+import Popup from 'reactjs-popup';
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef, Ref } from 'react';
 
 // first importing types
 import { ingredient, cookingStep, recipe, isValidRecipe } from '../logic/recipesLogic';
 
 // then functions
+import { getUser } from '../logic/authLogic';
 import { useAppSelector } from '../app/hooks';
 import { submitRecipe } from '../logic/recipesLogic';
 import { selectGeneralSettings } from '../slices/generalSettingsSlice';
-import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState } from '../utils';
+import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState, ErrorMessage } from '../utils';
 
 
 const ingredientTemplate: ingredient = {name: '', amount: 0, amountType: ''};
@@ -270,7 +273,10 @@ const AddRecipe = (): JSX.Element => {
     const [tagArray, setTagArray] = useState<Array<string>>([]);
     const [isRecipeValid, setRecipeValid] = useState<boolean>(false);
     const [fileToUpload, setFileToUpload] = useState<File|null>();
+    const [invalidRecipeError, setInvalidRecipeError] = useState<string>('');
+    const navigate = useNavigate();
     let recipeReference = useRef<recipe>();
+    
     
 
 
@@ -311,16 +317,25 @@ const AddRecipe = (): JSX.Element => {
                 </div> */}
                 <div id='submitRecipe'>
                 <button className={(isRecipeValid) ? 'clickable' : ''}
-                    disabled={!isRecipeValid}
-                    onClick={() => {
+                    onClick={async () => {
                     if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
-                        return
+                        setInvalidRecipeError('Missing or invalid details!');
+                        return;
                     }
 
-                    submitRecipe(recipeReference.current, fileToUpload);
+                    const user = getUser();
+                    const recipeData = await submitRecipe(recipeReference.current, fileToUpload);
+                    navigate(`/users/${user?.uid}/recipes/${recipeData.id}`);
                     }}>Save Recipe</button>
             </div>
             </div>
+            <Popup open={(invalidRecipeError) ? true : false}
+                   onClose={() => {setInvalidRecipeError('');}}>
+                { (close: Function) => (
+                <ErrorMessage errorMessage={invalidRecipeError} children={
+                    <button className='clickable closeErrorButton' onClick={() => {close();}}>OK</button>} />
+                )}
+            </Popup>
         </div>
     );
 }

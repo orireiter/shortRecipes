@@ -145,8 +145,9 @@ export const submitRecipe = async (recipe: recipe, file: File|null|undefined) =>
     const docData = await saveRecipe(detailedRecipe);
     if (file) {
         const pathToFile = `thumbnails/public/${currentUser.uid}`
-        uploadFile(pathToFile, docData.id, 'png', file);
-    }
+        await uploadFile(pathToFile, docData.id, 'png', file);
+    };
+    return docData;
 }
 
 
