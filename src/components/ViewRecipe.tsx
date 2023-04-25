@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
+import { getUser } from '../logic/authLogic';
 import { getRecipe, getThumbnailUrl, recipe } from '../logic/recipesLogic';
 import { LoadingScreen } from '../utils'
 
@@ -9,6 +10,7 @@ const ViewRecipe = (): JSX.Element => {
     const [content, setContent] = useState<JSX.Element>(<LoadingScreen />);
     const [thumbnailUrl, setThumbnailUrl] = useState<string>();
     const [recipe, setRecipe] = useState<recipe|null>(null);
+    let navigate = useNavigate();
     let { recipeId, creatorId } = useParams();
     
     const createRecipeHtml = (recipe: recipe) => {
@@ -24,12 +26,25 @@ const ViewRecipe = (): JSX.Element => {
                 </div>
             );
         });
+
+        let editButton = null;
+        let viewingUser = getUser()
+        if (viewingUser?.uid === recipe.userId) {
+            editButton = (
+                <button onClick={() => {
+                    navigate(`/recipes/${recipeId}/edit`);
+                }}>
+                    Edit
+                </button>)
+        };
+
         return (
             <div id='recipeView'>
-                <div>
+                <div id='recipeHeaderContainer'>
                     <h1 className='recipeName'>
                         {recipe.recipeName}
                     </h1>
+                    {editButton}
                 </div>
                 <div id='recipeViewThumbnailContainer'>
                     <img src={thumbnailUrl} width='100%' alt={recipe.recipeName}></img>

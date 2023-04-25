@@ -57,13 +57,13 @@ export type recipe = {
     recipeName: string,
     ingredients: Array<ingredient>,
     cookingSteps: Array<cookingStep>,
-    tags?: Array<string>
+    tags?: Array<string>,
+    userId?: User['uid'],
 }
 
 export type detailedRecipe = recipe & {
     creationDate: Date,
     isPublic: boolean,
-    userId: User['uid'],
     userName: User['email']
 }
 
@@ -167,6 +167,11 @@ export const getRecipe = async (recipeId: string) => {
     if (snapshotData.tags) {
         recipeData.tags = snapshotData.tags
     }
+
+    if (snapshotData.userId) {
+        recipeData.userId = snapshotData.userId
+    }
+    
     return recipeData
 }
 

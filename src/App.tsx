@@ -47,7 +47,8 @@ const getAppContent = (auth: authState) => {
             <Route path='/*' element={<Redirect  redirectTo='/recipes'/>} />
             <Route path='/recipes' element={<Home />} />
             <Route path='/recipes/add' element={<AddRecipe />} />
-            <Route path='users/:creatorId/recipes/:recipeId' element={<ViewRecipe />} />
+            <Route path='/recipes/:recipeId/edit' element={<AddRecipe />} />
+            <Route path='/users/:creatorId/recipes/:recipeId' element={<ViewRecipe />} />
           </Routes>
         </div>
   );
