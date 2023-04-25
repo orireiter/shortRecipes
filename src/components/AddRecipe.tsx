@@ -1,13 +1,16 @@
+import Popup from 'reactjs-popup';
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef, Ref } from 'react';
 
 // first importing types
 import { ingredient, cookingStep, recipe, isValidRecipe } from '../logic/recipesLogic';
 
 // then functions
-import { useAppSelector } from '../app/hooks';
+import { getUser } from '../logic/authLogic';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { submitRecipe } from '../logic/recipesLogic';
-import { selectGeneralSettings } from '../slices/generalSettingsSlice';
-import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState } from '../utils';
+import { selectGeneralSettings, openLoading, closeLoading } from '../slices/generalSettingsSlice';
+import { editObjectInArrayAndSetState, removeObjectFromArrayAndSetState, ErrorMessage } from '../utils';
 
 
 const ingredientTemplate: ingredient = {name: '', amount: 0, amountType: ''};
@@ -270,9 +273,10 @@ const AddRecipe = (): JSX.Element => {
     const [tagArray, setTagArray] = useState<Array<string>>([]);
     const [isRecipeValid, setRecipeValid] = useState<boolean>(false);
     const [fileToUpload, setFileToUpload] = useState<File|null>();
+    const [invalidRecipeError, setInvalidRecipeError] = useState<string>('');
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     let recipeReference = useRef<recipe>();
-    
-
 
     useEffect(() => {
         return (() => {recipeReference.current = undefined});
@@ -286,6 +290,22 @@ const AddRecipe = (): JSX.Element => {
         };
         setRecipeValid((recipeReference.current && isValidRecipe(recipeReference.current)) ? true : false)
     }, [dishName, ingredientArray, cookingStepsArray]);
+
+    async function saveRecipe() {
+        dispatch(openLoading());
+        try {
+            if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
+                setInvalidRecipeError('Missing or invalid details!');
+                return;
+            };
+    
+            const user = getUser();
+            const recipeData = await submitRecipe(recipeReference.current, fileToUpload);
+            navigate(`/users/${user?.uid}/recipes/${recipeData.id}`);
+        } catch {} finally {
+            dispatch(closeLoading());
+        };
+    };
 
     // TODO toggle if recipe is private or public
     return (
@@ -311,16 +331,16 @@ const AddRecipe = (): JSX.Element => {
                 </div> */}
                 <div id='submitRecipe'>
                 <button className={(isRecipeValid) ? 'clickable' : ''}
-                    disabled={!isRecipeValid}
-                    onClick={() => {
-                    if (!recipeReference.current || !isValidRecipe(recipeReference.current)) {
-                        return
-                    }
-
-                    submitRecipe(recipeReference.current, fileToUpload);
-                    }}>Save Recipe</button>
+                    onClick={saveRecipe}>Save Recipe</button>
             </div>
             </div>
+            <Popup open={(invalidRecipeError) ? true : false}
+                   onClose={() => {setInvalidRecipeError('');}}>
+                { (close: Function) => (
+                <ErrorMessage errorMessage={invalidRecipeError} children={
+                    <button className='clickable closeErrorButton' onClick={() => {close();}}>OK</button>} />
+                )}
+            </Popup>
         </div>
     );
 }
