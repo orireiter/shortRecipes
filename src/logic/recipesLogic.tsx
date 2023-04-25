@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { getUser } from './authLogic';
 import { hslShadeGenerator } from '../utils';
-import { saveRecipe, getRecipe as fetchRecipe, getPublicRecipes } from '../data/recipesDal';
+import { saveRecipe, updateRecipe, getRecipe as fetchRecipe, getPublicRecipes } from '../data/recipesDal';
 import { uploadFile, getFileUrl } from '../data/storageDal';
 
 
@@ -59,6 +59,7 @@ export type recipe = {
     cookingSteps: Array<cookingStep>,
     tags?: Array<string>,
     userId?: User['uid'],
+    id?: string,
 }
 
 export type detailedRecipe = recipe & {
@@ -133,7 +134,7 @@ export const getThumbnailUrl = (creatorId: string, recipeId: string) => {
 }
 
 
-export const submitRecipe = async (recipe: recipe, file: File|null|undefined) => {
+export const submitRecipe = async (recipe: recipe, file: File|null|undefined, recipeId: string|null = null) => {
     let currentUser = getUser();
     
     if (!currentUser) {
@@ -142,10 +143,20 @@ export const submitRecipe = async (recipe: recipe, file: File|null|undefined) =>
 
     const detailedRecipe = await createDetailedRecipe(recipe, currentUser);
 
-    const docData = await saveRecipe(detailedRecipe);
+    let docData;
+    if (recipeId) {
+        await updateRecipe(recipeId, detailedRecipe);
+        detailedRecipe.id = recipeId;
+        docData = detailedRecipe;
+    } else {
+        docData = await saveRecipe(detailedRecipe);
+        recipeId = docData.id;
+    };
+
+
     if (file) {
         const pathToFile = `thumbnails/public/${currentUser.uid}`
-        await uploadFile(pathToFile, docData.id, 'png', file);
+        await uploadFile(pathToFile, recipeId, 'png', file);
     };
     return docData;
 }
@@ -171,7 +182,7 @@ export const getRecipe = async (recipeId: string) => {
     if (snapshotData.userId) {
         recipeData.userId = snapshotData.userId
     }
-    
+
     return recipeData
 }
 
